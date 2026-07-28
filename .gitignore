@@ -1,0 +1,28 @@
+# Local source material and publisher files
+*.docx
+*.dotm
+*.pdf
+chapters/**/chapter.md
+
+# Python environments and caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# Local tools and operating-system files
+.DS_Store
+.modal/
+
+# Downloaded model data and credentials
+*.safetensors
+*.gguf
+*.bin
+.env
+.env.*
+
+# Generated scratch output (curated chapter artifacts are committed)
+artifacts/tmp/
+*.prof
+*.trace.json

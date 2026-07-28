@@ -1,0 +1,565 @@
+{
+  "prompt_tokens": 41,
+  "answer": {
+    "max_new_tokens": 64,
+    "tokens_equal": false,
+    "common_new_token_prefix": 17,
+    "uncached_total_seconds": 1.1887543599999972,
+    "cached_total_seconds": 0.9475950959999828,
+    "speedup": 1.2544961081141124,
+    "manual_cached_matches_generate": true,
+    "generated_token_ids": [
+      4086,
+      44,
+      16895,
+      374,
+      51000,
+      1576,
+      432,
+      11364,
+      279,
+      1946,
+      304,
+      264,
+      3019,
+      14319,
+      29208,
+      11566,
+      11,
+      825,
+      3950,
+      518,
+      264,
+      882,
+      11,
+      2701,
+      279,
+      1973,
+      315,
+      279,
+      1946,
+      8500,
+      13,
+      151645
+    ],
+    "generated_text": "LLM decode is sequential because it processes the input in a step-by-step manner, one token at a time, following the order of the input sequence.",
+    "final_cache": {
+      "num_layers": 28,
+      "total_bytes": 2064384,
+      "layers": [
+        {
+          "layer": 0,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 1,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 2,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 3,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 4,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 5,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 6,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 7,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 8,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 9,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 10,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 11,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 12,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 13,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 14,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 15,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 16,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 17,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 18,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 19,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 20,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 21,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 22,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 23,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 24,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 25,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 26,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        },
+        {
+          "layer": 27,
+          "key_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "value_shape": [
+            1,
+            2,
+            72,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "bytes": 73728
+        }
+      ]
+    }
+  },
+  "benchmark": {
+    "uses_synthetic_repeated_context": true,
+    "context_lengths": [
+      64,
+      256,
+      1024
+    ],
+    "new_tokens_per_run": 16,
+    "comparisons": [
+      {
+        "context_tokens": 64,
+        "tokens_equal": false,
+        "common_new_token_prefix": 6,
+        "uncached_total_seconds": 0.36491078799999954,
+        "cached_total_seconds": 0.360846820999992,
+        "speedup": 1.0112623051208969
+      },
+      {
+        "context_tokens": 256,
+        "tokens_equal": true,
+        "common_new_token_prefix": 16,
+        "uncached_total_seconds": 0.445027139000004,
+        "cached_total_seconds": 0.3692963499999955,
+        "speedup": 1.2050677971770083
+      },
+      {
+        "context_tokens": 1024,
+        "tokens_equal": true,
+        "common_new_token_prefix": 16,
+        "uncached_total_seconds": 1.1644306629999974,
+        "cached_total_seconds": 0.4153385599999915,
+        "speedup": 2.803569846729428
+      }
+    ]
+  },
+  "peak_allocated_bytes": 3205838336
+}

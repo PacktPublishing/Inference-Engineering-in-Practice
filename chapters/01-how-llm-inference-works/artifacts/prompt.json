@@ -1,0 +1,624 @@
+{
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "prompt": "Explain in one sentence why LLM decode is sequential.",
+  "rendered_prompt": "<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\nExplain in one sentence why LLM decode is sequential.<|im_end|>\n<|im_start|>assistant\n",
+  "token_ids": [
+    151644,
+    8948,
+    198,
+    2610,
+    525,
+    1207,
+    16948,
+    11,
+    3465,
+    553,
+    54364,
+    14817,
+    13,
+    1446,
+    525,
+    264,
+    10950,
+    17847,
+    13,
+    151645,
+    198,
+    151644,
+    872,
+    198,
+    840,
+    20772,
+    304,
+    825,
+    11652,
+    3170,
+    444,
+    10994,
+    16895,
+    374,
+    51000,
+    13,
+    151645,
+    198,
+    151644,
+    77091,
+    198
+  ],
+  "token_pieces": [
+    "<|im_start|>",
+    "system",
+    "\u010a",
+    "You",
+    "\u0120are",
+    "\u0120Q",
+    "wen",
+    ",",
+    "\u0120created",
+    "\u0120by",
+    "\u0120Alibaba",
+    "\u0120Cloud",
+    ".",
+    "\u0120You",
+    "\u0120are",
+    "\u0120a",
+    "\u0120helpful",
+    "\u0120assistant",
+    ".",
+    "<|im_end|>",
+    "\u010a",
+    "<|im_start|>",
+    "user",
+    "\u010a",
+    "Ex",
+    "plain",
+    "\u0120in",
+    "\u0120one",
+    "\u0120sentence",
+    "\u0120why",
+    "\u0120L",
+    "LM",
+    "\u0120decode",
+    "\u0120is",
+    "\u0120sequential",
+    ".",
+    "<|im_end|>",
+    "\u010a",
+    "<|im_start|>",
+    "assistant",
+    "\u010a"
+  ],
+  "tensor_shapes": {
+    "input_ids": [
+      1,
+      41
+    ],
+    "embeddings": [
+      1,
+      41,
+      1536
+    ],
+    "logits": [
+      1,
+      41,
+      151936
+    ]
+  },
+  "model_shape": {
+    "layers": 28,
+    "hidden_size": 1536,
+    "attention_heads": 12,
+    "key_value_heads": 2,
+    "head_dim": 128
+  },
+  "top_next_tokens": [
+    {
+      "token_id": 4086,
+      "text": "LL",
+      "probability": 0.8664918541908264
+    },
+    {
+      "token_id": 13806,
+      "text": "Language",
+      "probability": 0.03359753265976906
+    },
+    {
+      "token_id": 641,
+      "text": "In",
+      "probability": 0.026165787130594254
+    },
+    {
+      "token_id": 6583,
+      "text": "Long",
+      "probability": 0.017983464524149895
+    },
+    {
+      "token_id": 43,
+      "text": "L",
+      "probability": 0.015870351344347
+    }
+  ],
+  "cache": {
+    "num_layers": 28,
+    "total_bytes": 1175552,
+    "layers": [
+      {
+        "layer": 0,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 1,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 2,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 3,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 4,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 5,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 6,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 7,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 8,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 9,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 10,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 11,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 12,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 13,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 14,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 15,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 16,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 17,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 18,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 19,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 20,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 21,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 22,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 23,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 24,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 25,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 26,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      },
+      {
+        "layer": 27,
+        "key_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "value_shape": [
+          1,
+          2,
+          41,
+          128
+        ],
+        "dtype": "torch.bfloat16",
+        "bytes": 41984
+      }
+    ]
+  }
+}
