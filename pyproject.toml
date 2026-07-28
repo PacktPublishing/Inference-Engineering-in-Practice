@@ -1,0 +1,32 @@
+[project]
+name = "llm-inference-engineering"
+version = "0.1.0"
+description = "Runnable companion code for LLM Inference Engineering in Practice"
+readme = "README.md"
+requires-python = "==3.12.*"
+dependencies = [
+    "matplotlib==3.11.1",
+    "modal==1.2.6",
+    "numpy==2.5.1",
+    "safetensors==0.8.0",
+    "torch==2.13.0",
+    "transformers==5.14.1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==9.1.1",
+    "ruff==0.15.22",
+]
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+pythonpath = ["chapters/01-how-llm-inference-works/code"]
+testpaths = ["chapters/01-how-llm-inference-works/tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["B", "E", "F", "I", "SIM", "UP"]
