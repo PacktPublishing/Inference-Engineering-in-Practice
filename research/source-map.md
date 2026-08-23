@@ -25,33 +25,84 @@ independently checked and their wording and code must not be copied.
 - Verification rule: recalculate complexity, KV-cache memory with
   `num_key_value_heads`, and roofline examples before reuse
 
-## Course resources for later chapters
+## Engine and course resources
 
 ### Fast & Efficient LLM Inference with vLLM
 
 - URL:
   https://www.deeplearning.ai/courses/fast-and-efficient-llm-inference-with-vllm
 - Provider: DeepLearning.AI and Red Hat
-- Candidate chapters:
-  - Chapter 2: benchmarking and model-quality evaluation
-  - Chapter 4: vLLM, continuous batching, PagedAttention, and prefix caching
-  - Chapter 5: realistic traffic generation and engine comparison
-  - Chapter 8: weight and activation quantization
-- Primary-source follow-ups: vLLM paper/docs, PagedAttention paper, LLM
-  Compressor docs, GuideLLM docs, and lm-evaluation-harness docs
+- Intended use:
+  - Chapter 2: workload ideas for continuous batching, PagedAttention, prefix
+    caching, metrics, and OpenAI-compatible serving
+  - Chapter 8: workload normalization and engine comparison
+- Verification rule: independently verify all APIs, defaults, metrics, and
+  performance claims against the pinned vLLM release and primary sources
+- Primary-source follow-ups:
+  - PagedAttention paper: https://arxiv.org/abs/2309.06180
+  - vLLM V1 guide: https://docs.vllm.ai/en/latest/usage/v1_guide/
+  - vLLM tuning:
+    https://docs.vllm.ai/en/latest/configuration/optimization/
+  - vLLM metrics: https://docs.vllm.ai/en/latest/usage/metrics/
+  - vLLM releases: https://github.com/vllm-project/vllm/releases
 
 ### Efficient Inference with SGLang: Text and Image Generation
 
 - URL:
   https://www.deeplearning.ai/courses/efficient-inference-with-sglang-text-and-image-generation
 - Provider: DeepLearning.AI, LMSYS/SGLang, and RadixArk
-- Candidate chapters:
-  - Chapter 5: SGLang serving and engine comparison
-  - Chapter 9: RadixAttention and cross-request prefix reuse
-  - Chapter 11: multi-GPU parallelism
-  - Chapter 12: inference for diffusion and image generation
-- Primary-source follow-ups: SGLang paper/docs, RadixAttention paper and
-  implementation, and the relevant diffusion-model papers
+- Intended use:
+  - Chapter 3: SGLang serving, RadixAttention, HiCache, speculative decoding,
+    and text-generation structured outputs
+  - Chapter 8: normalized comparison and distributed-serving synthesis
+- Exclusion: image-generation and diffusion material are outside this book
+- Primary-source follow-ups: current SGLang paper, documentation,
+  implementation, and release notes
+
+### TensorRT-LLM
+
+- Documentation: https://nvidia.github.io/TensorRT-LLM/
+- Intended use:
+  - Chapter 4: NVIDIA-optimized engine construction and serving
+  - Chapter 6: native quantization paths and hardware-specific kernels
+  - Chapter 8: normalized comparison and scale-out synthesis
+- Verification rule: record TensorRT-LLM, CUDA, driver, GPU architecture, model
+  conversion, engine-build, and runtime versions together
+
+## Dedicated-topic primary sources
+
+### Structured outputs and constrained decoding
+
+- XGrammar paper: https://arxiv.org/abs/2411.15100
+- vLLM structured outputs:
+  https://docs.vllm.ai/en/latest/features/structured_outputs/
+- SGLang structured outputs:
+  https://docs.sglang.ai/advanced_features/structured_outputs.html
+- TensorRT-LLM guided decoding:
+  https://nvidia.github.io/TensorRT-LLM/latest/features/guided-decoding.html
+- Intended use: engine previews in Chapters 2–4 and framework-neutral treatment
+  in Chapter 5
+- Verification rule: measure structural validity and semantic correctness
+  separately
+
+### Quantization
+
+- Intended use: engine-native previews in Chapters 2–4 and dedicated serving
+  treatment in Chapter 6
+- Primary-source set to maintain per experiment:
+  - Numerical-format specification or hardware documentation
+  - Quantization-method paper
+  - Artifact/conversion documentation
+  - Engine/backend/kernel support documentation
+- Verification rule: a format name alone does not establish artifact,
+  engine, kernel, or hardware compatibility, quality, or speedup
+
+### Speculative decoding
+
+- Intended use: practical examples in Chapters 2–4 and deep synthesis in
+  Chapter 8
+- Verification rule: report draft method/model, acceptance rate, batch/load,
+  memory cost, and latency/throughput regime; preserve regressions as evidence
 
 ## Per-source research record
 

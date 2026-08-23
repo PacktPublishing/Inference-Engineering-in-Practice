@@ -1,0 +1,126 @@
+{
+  "contiguous": {
+    "admitted_requests": 2,
+    "allocated_slots": 2048,
+    "allocation_utilization": 0.146484375,
+    "block_size": null,
+    "capacity_utilization": 0.146484375,
+    "free_slots": 0,
+    "policy": "contiguous",
+    "records": [
+      {
+        "admitted": true,
+        "allocated_slots": 1024,
+        "request_id": "A",
+        "requested_reserved_tokens": 1024,
+        "requested_used_tokens": 100,
+        "used_slots": 100,
+        "wasted_slots": 924
+      },
+      {
+        "admitted": true,
+        "allocated_slots": 1024,
+        "request_id": "B",
+        "requested_reserved_tokens": 1024,
+        "requested_used_tokens": 200,
+        "used_slots": 200,
+        "wasted_slots": 824
+      },
+      {
+        "admitted": false,
+        "allocated_slots": 0,
+        "request_id": "C",
+        "requested_reserved_tokens": 1024,
+        "requested_used_tokens": 300,
+        "used_slots": 0,
+        "wasted_slots": 0
+      },
+      {
+        "admitted": false,
+        "allocated_slots": 0,
+        "request_id": "D",
+        "requested_reserved_tokens": 1024,
+        "requested_used_tokens": 400,
+        "used_slots": 0,
+        "wasted_slots": 0
+      }
+    ],
+    "rejected_requests": 2,
+    "total_slots": 2048,
+    "used_slots": 300,
+    "wasted_slots": 1748
+  },
+  "paged": {
+    "admitted_requests": 4,
+    "allocated_slots": 1024,
+    "allocation_utilization": 0.9765625,
+    "block_size": 16,
+    "capacity_utilization": 0.48828125,
+    "free_slots": 1024,
+    "policy": "paged",
+    "records": [
+      {
+        "admitted": true,
+        "allocated_slots": 112,
+        "request_id": "A",
+        "requested_reserved_tokens": 1024,
+        "requested_used_tokens": 100,
+        "used_slots": 100,
+        "wasted_slots": 12
+      },
+      {
+        "admitted": true,
+        "allocated_slots": 208,
+        "request_id": "B",
+        "requested_reserved_tokens": 1024,
+        "requested_used_tokens": 200,
+        "used_slots": 200,
+        "wasted_slots": 8
+      },
+      {
+        "admitted": true,
+        "allocated_slots": 304,
+        "request_id": "C",
+        "requested_reserved_tokens": 1024,
+        "requested_used_tokens": 300,
+        "used_slots": 300,
+        "wasted_slots": 4
+      },
+      {
+        "admitted": true,
+        "allocated_slots": 400,
+        "request_id": "D",
+        "requested_reserved_tokens": 1024,
+        "requested_used_tokens": 400,
+        "used_slots": 400,
+        "wasted_slots": 0
+      }
+    ],
+    "rejected_requests": 0,
+    "total_slots": 2048,
+    "used_slots": 1000,
+    "wasted_slots": 24
+  },
+  "requests": [
+    {
+      "request_id": "A",
+      "reserved_tokens": 1024,
+      "used_tokens": 100
+    },
+    {
+      "request_id": "B",
+      "reserved_tokens": 1024,
+      "used_tokens": 200
+    },
+    {
+      "request_id": "C",
+      "reserved_tokens": 1024,
+      "used_tokens": 300
+    },
+    {
+      "request_id": "D",
+      "reserved_tokens": 1024,
+      "used_tokens": 400
+    }
+  ]
+}

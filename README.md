@@ -11,6 +11,7 @@ complete programs, tests, and reproducibility metadata.
 ## Chapters
 
 - [Chapter 1: How LLM Inference Works](chapters/01-how-llm-inference-works)
+- [Chapter 2: vLLM — Build, Observe, and Tune a Serving Engine](chapters/02-serving-with-vllm)
 
 ## Local setup
 

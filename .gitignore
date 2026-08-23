@@ -2,6 +2,7 @@
 *.docx
 *.dotm
 *.pdf
+BOOK_PLAN.md
 chapters/**/chapter.md
 
 # Python environments and caches
