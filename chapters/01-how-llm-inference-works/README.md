@@ -5,7 +5,7 @@ manuscript includes the essential snippets and explanations; these files add
 the full programs, tests, generated artifacts, and reproducibility metadata.
 
 Complete repository:
-https://github.com/Iron-Stark/llm-inference-engineering
+https://github.com/PacktPublishing/Inference-Engineering-in-Practice
 
 ## What runs where
 
