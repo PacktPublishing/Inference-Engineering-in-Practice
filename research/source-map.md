@@ -33,9 +33,10 @@ independently checked and their wording and code must not be copied.
   https://www.deeplearning.ai/courses/fast-and-efficient-llm-inference-with-vllm
 - Provider: DeepLearning.AI and Red Hat
 - Intended use:
-  - Chapter 2: workload ideas for continuous batching, PagedAttention, prefix
-    caching, metrics, and OpenAI-compatible serving
-  - Chapter 8: workload normalization and engine comparison
+  - Chapter 2: metrics and OpenAI-compatible serving
+  - Chapter 3: continuous batching and cache allocation
+  - Chapter 4: prefix caching
+  - Chapter 9: engine selection using the shared measurement contract
 - Verification rule: independently verify all APIs, defaults, metrics, and
   performance claims against the pinned vLLM release and primary sources
 - Primary-source follow-ups:
@@ -52,9 +53,11 @@ independently checked and their wording and code must not be copied.
   https://www.deeplearning.ai/courses/efficient-inference-with-sglang-text-and-image-generation
 - Provider: DeepLearning.AI, LMSYS/SGLang, and RadixArk
 - Intended use:
-  - Chapter 3: SGLang serving, RadixAttention, HiCache, speculative decoding,
-    and text-generation structured outputs
-  - Chapter 8: normalized comparison and distributed-serving synthesis
+  - Chapter 2: SGLang serving as an alternative implementation
+  - Chapter 4: RadixAttention and cache reuse
+  - Chapter 5: text-generation structured outputs
+  - Chapter 7: speculative decoding
+  - Chapters 8 and 9: scaling and engine selection
 - Exclusion: image-generation and diffusion material are outside this book
 - Primary-source follow-ups: current SGLang paper, documentation,
   implementation, and release notes
@@ -63,9 +66,9 @@ independently checked and their wording and code must not be copied.
 
 - Documentation: https://nvidia.github.io/TensorRT-LLM/
 - Intended use:
-  - Chapter 4: NVIDIA-optimized engine construction and serving
-  - Chapter 6: native quantization paths and hardware-specific kernels
-  - Chapter 8: normalized comparison and scale-out synthesis
+  - Chapter 2: TensorRT-LLM serving as an alternative implementation
+  - Chapter 6: native quantization paths and compatibility constraints
+  - Chapters 8 and 9: scaling and engine selection
 - Verification rule: record TensorRT-LLM, CUDA, driver, GPU architecture, model
   conversion, engine-build, and runtime versions together
 
@@ -80,15 +83,13 @@ independently checked and their wording and code must not be copied.
   https://docs.sglang.ai/advanced_features/structured_outputs.html
 - TensorRT-LLM guided decoding:
   https://nvidia.github.io/TensorRT-LLM/latest/features/guided-decoding.html
-- Intended use: engine previews in Chapters 2–4 and framework-neutral treatment
-  in Chapter 5
+- Intended use: Chapter 5, with implementation comparisons in the same chapter
 - Verification rule: measure structural validity and semantic correctness
   separately
 
 ### Quantization
 
-- Intended use: engine-native previews in Chapters 2–4 and dedicated serving
-  treatment in Chapter 6
+- Intended use: Chapter 6, including engine-specific serving behavior
 - Primary-source set to maintain per experiment:
   - Numerical-format specification or hardware documentation
   - Quantization-method paper
@@ -99,8 +100,7 @@ independently checked and their wording and code must not be copied.
 
 ### Speculative decoding
 
-- Intended use: practical examples in Chapters 2–4 and deep synthesis in
-  Chapter 8
+- Intended use: Chapter 7, including cases where speculation does not help
 - Verification rule: report draft method/model, acceptance rate, batch/load,
   memory cost, and latency/throughput regime; preserve regressions as evidence
 

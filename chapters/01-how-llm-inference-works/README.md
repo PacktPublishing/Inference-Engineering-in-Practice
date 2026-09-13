@@ -1,69 +1,75 @@
-# Chapter 1: How LLM Inference Works
+# Chapter 1: Following an LLM Request Through the Inference Stack
 
-This folder contains the complete companion code for Chapter 1. The chapter
-manuscript includes the essential snippets and explanations; these files add
-the full programs, tests, generated artifacts, and reproducibility metadata.
+Follow one request from its chat template to token IDs, next-token scores,
+prefill, decode, and retained KV state. The figures introduce each mechanism;
+the code makes the request and its state inspectable. This is a single-request
+walkthrough, not a production serving benchmark.
 
-Complete repository:
-https://github.com/PacktPublishing/Inference-Engineering-in-Practice
+## Start here
 
-## What runs where
+1. Read the [figure sequence](figures/README.md).
+2. Calculate ideal cache storage locally, without a GPU or model download:
 
-- `attention.py`, `sampling.py`, and KV-cache sizing tests: CPU, no account
-  required
-- Real-model prompt/logit and generation examples: CPU/MPS where practical
-- CUDA timing and cache inspection: one on-demand NVIDIA L4 through Modal
+   ```bash
+   python3 chapters/01-how-llm-inference-works/code/kv_cache.py
+   ```
 
-Modal is only the GPU sandbox. None of the inference logic depends on Modal.
-A Modal account is required only for the labeled GPU experiment.
+   The Qwen example reports **28 KiB per cached token** and **896 MiB** for
+   one 32,768-token request. These are ideal K/V tensor bytes, not total GPU memory.
+3. Inspect [prompt.json](artifacts/prompt.json) alongside the prompt-to-token
+   diagram. Identify the rendered conversation, 41 input tokens, and cache shapes.
+4. Read `generate_with_cache` in [generation_loop.py](code/generation_loop.py).
+   Track the full prompt on the first call, one new input on later calls, and
+   the growing attention mask. Compare with `generate_without_cache` only to
+   see the repeated work.
+5. Reconstruct the recorded timing totals using [the artifact notes](artifacts/README.md).
+   Use the chapter's failure cases to distinguish formatting, generation-policy,
+   cache-position, and measurement problems.
 
-## Setup
+## Code map
 
-From the repository root:
+| File | Reader question |
+| --- | --- |
+| [prompt_to_logits.py](code/prompt_to_logits.py) | What did the model actually receive and predict? |
+| [generation_loop.py](code/generation_loop.py) | What changes after each selected token? |
+| [kv_cache.py](code/kv_cache.py) | How much state does one request retain? |
+| [experiments.py](code/experiments.py) | What evidence distinguishes saved computation from a timing claim? |
+| [model_config.py](code/model_config.py) | Which immutable model and package versions were used? |
+| [modal_app.py](code/modal_app.py) | How can the recorded experiment be repeated on a GPU? |
+
+Attention and sampling are explained visually and through the model/library
+interfaces. The standalone implementations have been removed from the Chapter 1
+reader path and code. Generation uses the existing plain greedy selector.
+
+## Local verification
+
+From the repository root, install the locked Python 3.12 environment:
 
 ```bash
-uv sync
-source .venv/bin/activate
+uv sync --locked
+uv run ruff check chapters/01-how-llm-inference-works
+uv run pytest chapters/01-how-llm-inference-works/tests
 ```
 
-Run local checks:
+The tests exercise a tiny random model created locally, masks and cache state,
+matching generation settings, recorded cache arithmetic, and reconstructed timing
+totals. They need no model downloads, credentials, or GPU.
 
-```bash
-uv run ruff check .
-uv run pytest
-```
+## Optional GPU reproduction
 
-Run the local, deterministic examples:
-
-```bash
-uv run python chapters/01-how-llm-inference-works/code/attention.py
-uv run python chapters/01-how-llm-inference-works/code/sampling.py
-uv run python chapters/01-how-llm-inference-works/code/kv_cache.py
-```
-
-## GPU experiment
-
-Authenticate the Modal CLI once:
+The chapter can be read using the committed evidence. Loading the real model
+requires its weights; the optional Modal command also incurs cloud usage.
+Review the exact run and costs using [DEVELOPMENT.md](../../DEVELOPMENT.md).
 
 ```bash
 uv run modal setup
+uv run modal run chapters/01-how-llm-inference-works/code/modal_app.py
 ```
 
-Run the consolidated GPU experiment:
+Keep the original measured artifacts when experimenting. Write new results to a
+separate location and record their environment. The inference modules remain
+independent of the Modal wrapper.
 
-```bash
-uv run modal run \
-  chapters/01-how-llm-inference-works/code/modal_app.py
-```
-
-This command incurs usage on one L4. Review current Modal pricing and account
-credits first. It creates no deployed endpoint and leaves no warm GPU running.
-
-## Layout
-
-- `chapter.md`: standalone manuscript draft
-- `code/`: complete runnable examples
-- `tests/`: fast correctness and snippet-consistency tests
-- `artifacts/`: small, curated outputs from verified runs
-- `figures/`: figure inventory and Excalidraw scene references
-- `references.md`: sources for factual and API claims
+The publisher manuscript lives in Word. The ignored `chapter.md` is a reading
+copy synchronized with the revised manuscript, with its retained snippets checked
+against executable code.

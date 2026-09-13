@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="490" viewBox="0 0 960 490" role="img" aria-labelledby="title"><title id="title">One prompt pass then one new input at a time</title><rect width="960" height="490" fill="white"/>
+<text x="28" y="48" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#182b3a">One prompt pass then one new input at a time</text>
+<text x="30" y="102" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#182b3a">Model calls</text>
+<rect x="30" y="135" width="280" height="110" rx="8" fill="#e6f0f7" stroke="#182b3a"/>
+<text x="46" y="173" font-family="Arial, sans-serif" font-size="24" font-weight="400" fill="#182b3a">Prefill</text>
+<text x="46" y="204" font-family="Arial, sans-serif" font-size="24" font-weight="400" fill="#182b3a">Process all prompt IDs</text>
+<rect x="365" y="135" width="250" height="110" rx="8" fill="#fff0dc" stroke="#182b3a"/>
+<text x="381" y="173" font-family="Arial, sans-serif" font-size="24" font-weight="400" fill="#182b3a">Decode</text>
+<text x="381" y="204" font-family="Arial, sans-serif" font-size="24" font-weight="400" fill="#182b3a">Process new ID 1</text>
+<rect x="670" y="135" width="250" height="110" rx="8" fill="#fff0dc" stroke="#182b3a"/>
+<text x="686" y="173" font-family="Arial, sans-serif" font-size="24" font-weight="400" fill="#182b3a">Decode</text>
+<text x="686" y="204" font-family="Arial, sans-serif" font-size="24" font-weight="400" fill="#182b3a">Process new ID 2</text>
+<path d="M315 188 L358 188" stroke="#182b3a" stroke-width="2" fill="none"/><polygon points="358,188 348.0950818741206,192.78462087522354 348.0950818741206,183.21537912477646" fill="#182b3a"/>
+<path d="M620 188 L663 188" stroke="#182b3a" stroke-width="2" fill="none"/><polygon points="663,188 653.0950818741205,192.78462087522354 653.0950818741205,183.21537912477646" fill="#182b3a"/>
+<text x="30" y="298" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182b3a">Select output ID 1</text>
+<text x="365" y="298" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182b3a">Select output ID 2</text>
+<text x="670" y="298" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182b3a">Select output ID 3</text>
+<rect x="30" y="335" width="890" height="72" rx="8" fill="#e6f3ec" stroke="#182b3a"/>
+<text x="46" y="372" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182b3a">KV history grows across calls. Each selected ID feeds the next call.</text>
+<text x="30" y="460" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">The first output comes from prefill. Model calls are not HTTP stream chunks.</text>
+</svg>

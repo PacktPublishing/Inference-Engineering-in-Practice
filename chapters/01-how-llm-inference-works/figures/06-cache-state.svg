@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="490" viewBox="0 0 960 490" role="img" aria-labelledby="title"><title id="title">Cache state follows processed inputs</title><rect width="960" height="490" fill="white"/>
+<text x="28" y="48" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#182b3a">Cache state follows processed inputs</text>
+<text x="30" y="106" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#182b3a">Recorded request</text>
+<rect x="30" y="133" width="280" height="105" rx="8" fill="#e6f0f7" stroke="#182b3a"/>
+<text x="46" y="169" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">41 prompt IDs</text>
+<text x="46" y="198" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">Prefill stores 41 positions</text>
+<rect x="370" y="133" width="245" height="105" rx="8" fill="#fff0dc" stroke="#182b3a"/>
+<text x="386" y="169" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">31 later inputs</text>
+<text x="386" y="198" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">Decode adds 31</text>
+<rect x="675" y="133" width="250" height="105" rx="8" fill="#f0f2f4" stroke="#182b3a"/>
+<text x="691" y="168" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#182b3a">Final end token</text>
+<text x="691" y="196" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#182b3a">Selected, not fed back</text>
+<path d="M315 184 L363 184" stroke="#182b3a" stroke-width="2" fill="none"/><polygon points="363,184 353.0950818741206,188.78462087522354 353.0950818741206,179.21537912477646" fill="#182b3a"/>
+<path d="M620 184 L668 184" stroke="#182b3a" stroke-width="2" fill="none"/><polygon points="668,184 658.0950818741205,188.78462087522354 658.0950818741205,179.21537912477646" fill="#182b3a"/>
+<rect x="30" y="295" width="895" height="90" rx="8" fill="#e6f3ec" stroke="#182b3a"/>
+<text x="46" y="333" font-family="Arial, sans-serif" font-size="24" font-weight="400" fill="#182b3a">Final stored positions: 41 + 31 = 72</text>
+<text x="46" y="364" font-family="Arial, sans-serif" font-size="24" font-weight="400" fill="#182b3a">72 × 28,672 bytes per position = 2,064,384 ideal K/V bytes</text>
+<text x="30" y="445" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182b3a">The answer contains 32 selected IDs, including the final end token.</text>
+</svg>

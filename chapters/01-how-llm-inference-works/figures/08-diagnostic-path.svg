@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="510" viewBox="0 0 960 510" role="img" aria-labelledby="title"><title id="title">Follow the first point where behavior differs</title><rect width="960" height="510" fill="white"/>
+<text x="28" y="48" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#182b3a">Follow the first point where behavior differs</text>
+<rect x="30" y="85" width="415" height="90" rx="8" fill="#e6f0f7" stroke="#182b3a"/>
+<text x="46" y="121" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">Symptom: plausible but wrong output</text>
+<text x="46" y="150" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">Inspect rendered chat and token IDs</text>
+<rect x="515" y="85" width="415" height="90" rx="8" fill="#fff0dc" stroke="#182b3a"/>
+<text x="531" y="121" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">Symptom: manual/library mismatch</text>
+<text x="531" y="150" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">Align generation settings and EOS</text>
+<path d="M230 180 L230 230" stroke="#182b3a" stroke-width="2" fill="none"/><polygon points="230,230 225.21537912477646,220.09508187412055 234.78462087522354,220.09508187412055" fill="#182b3a"/>
+<path d="M730 180 L730 230" stroke="#182b3a" stroke-width="2" fill="none"/><polygon points="730,230 725.2153791247765,220.09508187412055 734.7846208752235,220.09508187412055" fill="#182b3a"/>
+<rect x="30" y="238" width="415" height="95" rx="8" fill="#e6f0f7" stroke="#182b3a"/>
+<text x="46" y="274" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">Still differs after formatting checks?</text>
+<text x="46" y="303" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">Compare logits at the first difference</text>
+<rect x="515" y="238" width="415" height="95" rx="8" fill="#fff0dc" stroke="#182b3a"/>
+<text x="531" y="274" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">Still differs after policy checks?</text>
+<text x="531" y="303" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">Check cache positions and full mask</text>
+<path d="M230 338 L230 385" stroke="#182b3a" stroke-width="2" fill="none"/><polygon points="230,385 225.21537912477646,375.0950818741206 234.78462087522354,375.0950818741206" fill="#182b3a"/>
+<path d="M730 338 L730 385" stroke="#182b3a" stroke-width="2" fill="none"/><polygon points="730,385 725.2153791247765,375.0950818741206 734.7846208752235,375.0950818741206" fill="#182b3a"/>
+<rect x="30" y="393" width="900" height="95" rx="8" fill="#e6f3ec" stroke="#182b3a"/>
+<text x="46" y="430" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182b3a">Evaluate the evidence</text>
+<text x="46" y="460" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182b3a">Use numerical tolerances; a final string alone cannot locate the cause.</text>
+</svg>

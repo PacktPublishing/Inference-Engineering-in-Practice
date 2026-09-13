@@ -8,9 +8,10 @@ import os
 import tempfile
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-import torch
+if TYPE_CHECKING:
+    import torch
 
 
 @dataclass(frozen=True)
@@ -90,6 +91,8 @@ def human_bytes(number: int) -> str:
 
 
 def _layer_key_values(layer: Any) -> tuple[torch.Tensor, torch.Tensor] | None:
+    import torch
+
     for key_name, value_name in (("keys", "values"), ("key_cache", "value_cache")):
         key = getattr(layer, key_name, None)
         value = getattr(layer, value_name, None)
@@ -100,6 +103,8 @@ def _layer_key_values(layer: Any) -> tuple[torch.Tensor, torch.Tensor] | None:
 
 def cache_summary(cache: Any) -> dict[str, Any]:
     """Describe tensors in a modern Transformers Cache or a legacy tuple cache."""
+    import torch
+
     pairs: list[tuple[torch.Tensor, torch.Tensor]] = []
 
     if hasattr(cache, "layers"):

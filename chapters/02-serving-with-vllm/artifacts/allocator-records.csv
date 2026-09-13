@@ -1,9 +1,0 @@
-policy,request_id,admitted,used_slots,allocated_slots,wasted_slots
-contiguous,A,True,100,1024,924
-contiguous,B,True,200,1024,824
-contiguous,C,False,0,0,0
-contiguous,D,False,0,0,0
-paged,A,True,100,112,12
-paged,B,True,200,208,8
-paged,C,True,300,304,4
-paged,D,True,400,400,0

@@ -5,7 +5,6 @@ description = "Runnable companion code for LLM Inference Engineering in Practice
 readme = "README.md"
 requires-python = "==3.12.*"
 dependencies = [
-    "httpx==0.28.1",
     "matplotlib==3.11.1",
     "modal==1.2.6",
     "numpy==2.5.1",
@@ -21,16 +20,15 @@ dev = [
 ]
 
 [tool.pytest.ini_options]
-# The suite is synchronous; disabling AnyIO's auto plugin avoids a local import
-# stall while preserving identical test behavior in CI.
-addopts = "-ra -p no:anyio"
+# Import stalls were caused by offloaded environment files, not AnyIO.
+addopts = "-ra"
 pythonpath = [
+    ".",
     "chapters/01-how-llm-inference-works/code",
-    "chapters/02-serving-with-vllm/code",
 ]
 testpaths = [
+    "scripts/tests",
     "chapters/01-how-llm-inference-works/tests",
-    "chapters/02-serving-with-vllm/tests",
 ]
 
 [tool.ruff]

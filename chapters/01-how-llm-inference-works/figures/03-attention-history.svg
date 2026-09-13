@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560" role="img" aria-labelledby="title"><title id="title">Why earlier keys and values can be reused</title><rect width="960" height="560" fill="white"/>
+<text x="28" y="48" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#182b3a">Why earlier keys and values can be reused</text>
+<text x="30" y="102" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#182b3a">At the current position</text>
+<rect x="30" y="125" width="220" height="90" rx="8" fill="#fff0dc" stroke="#182b3a"/>
+<text x="46" y="161" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">Query Q</text>
+<text x="46" y="190" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">What to look for</text>
+<rect x="330" y="110" width="590" height="100" rx="8" fill="#e6f0f7" stroke="#182b3a"/>
+<text x="346" y="146" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">Keys K from allowed positions</text>
+<text x="346" y="175" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">Compare with Q to assign attention weights</text>
+<path d="M255 165 L323 165" stroke="#182b3a" stroke-width="2" fill="none"/><polygon points="323,165 313.0950818741206,169.78462087522354 313.0950818741206,160.21537912477646" fill="#182b3a"/>
+<rect x="330" y="255" width="590" height="100" rx="8" fill="#e6f3ec" stroke="#182b3a"/>
+<text x="346" y="291" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">Values V from those positions</text>
+<text x="346" y="320" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">Combine using the attention weights</text>
+<path d="M625 214 L625 248" stroke="#182b3a" stroke-width="2" fill="none"/><polygon points="625,248 620.2153791247765,238.09508187412055 629.7846208752235,238.09508187412055" fill="#182b3a"/>
+<rect x="330" y="400" width="590" height="70" rx="8" fill="#f0f2f4" stroke="#182b3a"/>
+<text x="346" y="436" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">Attention output for the current position</text>
+<path d="M625 359 L625 393" stroke="#182b3a" stroke-width="2" fill="none"/><polygon points="625,393 620.2153791247765,383.0950818741206 629.7846208752235,383.0950818741206" fill="#182b3a"/>
+<text x="30" y="304" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#182b3a">Causal rule</text>
+<text x="30" y="345" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#182b3a">Use earlier positions</text>
+<text x="30" y="373" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#182b3a">and the current one.</text>
+<text x="30" y="401" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#182b3a">Exclude future positions.</text>
+<text x="30" y="531" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182b3a">Appending later tokens does not change earlier K/V in this causal model.</text>
+</svg>

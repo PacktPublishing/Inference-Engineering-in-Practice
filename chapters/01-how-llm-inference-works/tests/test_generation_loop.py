@@ -1,10 +1,7 @@
-from functools import partial
-
 import pytest
 import torch
 from generation_loop import generate_with_cache, generate_without_cache
 from kv_cache import cache_summary
-from sampling import sample_next_token
 from transformers import AutoModelForCausalLM, Qwen2Config
 
 
@@ -66,23 +63,25 @@ def test_generation_forwards_safe_model_options(tiny_qwen: torch.nn.Module) -> N
     assert torch.equal(uncached.token_ids, cached.token_ids)
 
 
-def test_batched_sampler_plugs_into_generation_loop(tiny_qwen: torch.nn.Module) -> None:
+def test_custom_selector_plugs_into_batched_generation(tiny_qwen: torch.nn.Module) -> None:
     prompt = torch.tensor([[1, 7, 11, 5], [1, 3, 9, 2]])
-    sampler = partial(
-        sample_next_token,
-        temperature=0.8,
-        top_p=0.9,
-        generator=torch.Generator().manual_seed(17),
-    )
+    calls = []
+
+    def select_fixed_token(logits: torch.Tensor) -> torch.Tensor:
+        calls.append(tuple(logits.shape))
+        return torch.full((logits.shape[0], 1), 7, device=logits.device)
 
     result = generate_with_cache(
         tiny_qwen,
         prompt,
         max_new_tokens=4,
-        select_token=sampler,
+        select_token=select_fixed_token,
     )
 
     assert result.token_ids.shape == (2, 8)
+    assert calls == [(2, 64)] * 4
+    assert torch.equal(result.token_ids[:, :4], prompt)
+    assert torch.all(result.token_ids[:, 4:] == 7)
 
 
 @pytest.mark.parametrize(

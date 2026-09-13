@@ -3,10 +3,11 @@
 *.dotm
 *.pdf
 BOOK_PLAN.md
+author/
 chapters/**/chapter.md
 
 # Python environments and caches
-.venv/
+.venv
 __pycache__/
 *.py[cod]
 .pytest_cache/

@@ -280,8 +280,10 @@ def write_experiment_artifacts(result: dict[str, Any], output_dir: Path) -> None
         axis.plot(context_lengths, totals, marker="o", label=mode)
     axis.set_xscale("log", base=2)
     axis.set_xlabel("Initial context tokens")
-    axis.set_ylabel("Total latency for 16 new tokens (ms)")
-    axis.set_title("Manual greedy generation on one NVIDIA L4")
+    new_tokens = result["generation"]["benchmark"]["new_tokens_per_run"]
+    axis.set_ylabel(f"Summed forward time for {new_tokens} new tokens (ms)")
+    gpu = result["environment"].get("gpu", "recorded device")
+    axis.set_title(f"Manual greedy generation on {gpu}")
     axis.grid(True, which="both", alpha=0.25)
     axis.legend()
     figure.tight_layout()

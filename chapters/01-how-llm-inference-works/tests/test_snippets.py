@@ -8,11 +8,7 @@ CHAPTER_DIR = Path(__file__).parents[1]
 CHAPTER_PATH = CHAPTER_DIR / "chapter.md"
 SNIPPET_SOURCES = {
     "prompt-to-logits": "code/prompt_to_logits.py",
-    "attention-core": "code/attention.py",
-    "sampling-core": "code/sampling.py",
-    "uncached-loop": "code/generation_loop.py",
     "cached-loop": "code/generation_loop.py",
-    "kv-cache-formula": "code/kv_cache.py",
 }
 
 

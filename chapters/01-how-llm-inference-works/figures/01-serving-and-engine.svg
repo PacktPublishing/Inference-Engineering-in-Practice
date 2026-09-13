@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="550" viewBox="0 0 960 550" role="img" aria-labelledby="title"><title id="title">Two responsibilities behind one response</title><rect width="960" height="550" fill="white"/>
+<text x="28" y="48" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#182b3a">Two responsibilities behind one response</text>
+<rect x="30" y="95" width="170" height="100" rx="8" fill="#f0f2f4" stroke="#182b3a"/>
+<text x="46" y="128" font-family="Arial, sans-serif" font-size="19" font-weight="400" fill="#182b3a">Client</text>
+<text x="46" y="154" font-family="Arial, sans-serif" font-size="19" font-weight="400" fill="#182b3a">Sends messages</text>
+<rect x="260" y="85" width="320" height="135" rx="8" fill="#e6f0f7" stroke="#182b3a"/>
+<text x="276" y="122" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182b3a">Serving layer</text>
+<text x="276" y="152" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182b3a">API, admission, timeouts</text>
+<text x="276" y="182" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182b3a">Streams the response</text>
+<path d="M205 140 L252 140" stroke="#182b3a" stroke-width="2" fill="none"/><polygon points="252,140 242.09508187412055,144.78462087522354 242.09508187412055,135.21537912477646" fill="#182b3a"/>
+<rect x="260" y="275" width="320" height="135" rx="8" fill="#fff0dc" stroke="#182b3a"/>
+<text x="276" y="312" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182b3a">Engine layer</text>
+<text x="276" y="342" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182b3a">Schedules model work</text>
+<text x="276" y="372" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182b3a">Retains KV request state</text>
+<path d="M420 224 L420 270" stroke="#182b3a" stroke-width="2" fill="none"/><polygon points="420,270 415.21537912477646,260.0950818741206 424.78462087522354,260.0950818741206" fill="#182b3a"/>
+<rect x="625" y="90" width="300" height="130" rx="8" fill="#f0f2f4" stroke="#182b3a"/>
+<text x="641" y="125" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#182b3a">One process can</text>
+<text x="641" y="153" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#182b3a">provide both layers.</text>
+<text x="641" y="181" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#182b3a">No extra gateway required.</text>
+<rect x="625" y="275" width="300" height="135" rx="8" fill="#e6f3ec" stroke="#182b3a"/>
+<text x="641" y="310" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#182b3a">Observe both boundaries</text>
+<text x="641" y="338" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#182b3a">Request timings and errors</text>
+<text x="641" y="366" font-family="Arial, sans-serif" font-size="21" font-weight="400" fill="#182b3a">Engine queue and memory</text>
+<text x="30" y="481" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#182b3a">Hardware and kernels execute the work beneath these responsibilities.</text>
+<text x="30" y="517" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#182b3a">We discuss them when they help explain a service symptom.</text>
+</svg>

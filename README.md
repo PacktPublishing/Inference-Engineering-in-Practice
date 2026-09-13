@@ -10,12 +10,18 @@ complete programs, tests, and reproducibility metadata.
 
 ## Chapters
 
-- [Chapter 1: How LLM Inference Works](chapters/01-how-llm-inference-works)
-- [Chapter 2: vLLM — Build, Observe, and Tune a Serving Engine](chapters/02-serving-with-vllm)
+- [Chapter 1: Following an LLM Request Through the Inference Stack](chapters/01-how-llm-inference-works)
+
+Chapter 2, *Building a Measurable LLM Service*, will be written and implemented
+from scratch under the revised concept-first plan.
 
 ## Local setup
 
-The project uses Python 3.12 and an exact `uv` lockfile:
+The project uses Python 3.12 and an exact `uv` lockfile. On macOS with a
+cloud-managed Documents folder, first run `sh scripts/setup_macos.sh` to keep
+dependencies local. See [the environment guidance](DEVELOPMENT.md#keeping-python-dependencies-local-on-macos).
+
+For ordinary local checkouts:
 
 ```bash
 uv sync
