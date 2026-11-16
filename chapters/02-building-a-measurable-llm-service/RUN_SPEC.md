@@ -73,6 +73,19 @@ The service orchestrator has a 1920-second overall deadline and stops the
 server on exit. Shutdown waits 10 seconds before escalation. One active
 container per function, no warm minimum or deployed endpoint.
 
+Modal function and startup timeouts exclude scheduling time. The local adapter
+therefore permits 1800 seconds for preparation and 3600 seconds for measurement,
+including submission, queue time and result transfer. On failure or interruption,
+it requests call cancellation and container termination, allowing 30 seconds for
+that request. It saves call IDs and failures in `*-call.json` beside `adapter.json`.
+These are provisioning records, not engine measurements. Cancellation acknowledgment
+does not prove cleanup. Inspect the app and its tasks; stop the app if necessary.
+If submission fails before returning a call ID, remote execution is unknown.
+Use the app ID printed by the Modal CLI to stop and inspect that app.
+Forced termination can prevent the remote evidence volume from being committed.
+See [Modal timeouts](https://modal.com/docs/guide/timeouts) and
+[call cancellation](https://modal.com/docs/reference/modal.FunctionCall#cancel).
+
 These bounds teach finite work, failure handling and cleanup. They can be
 changed when an experiment needs a different workload or startup profile;
 record the change. There are no hidden client retries inside a measurement.

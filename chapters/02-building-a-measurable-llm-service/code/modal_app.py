@@ -121,7 +121,7 @@ async def measure(run_id: str, source: dict):
 
 
 @app.local_entrypoint()
-def main(output: str):
+async def main(output: str):
     """Provision the declared experiment and return its evidence bundle."""
     target = Path(output).expanduser().resolve()
     if target.exists():
@@ -140,9 +140,16 @@ def main(output: str):
     }
     run_id = datetime.now(UTC).strftime(f"{ENGINE}-%Y%m%dT%H%M%SZ")
     print(f"Run ID: {run_id}; partial evidence volume: inference-book-chapter-02-evidence")
-    prepare_weights.remote()
-    files = measure.remote(run_id, source)
     target.mkdir(parents=True)
+    (target / "adapter.json").write_text(
+        json.dumps({"run_id": run_id, "engine": ENGINE, "source": source}, indent=2) + "\n"
+    )
+    from modal_calls import invoke
+
+    await invoke(prepare_weights, wait_s=1800, record=target / "prepare-call.json")
+    files = await invoke(
+        measure, run_id, source, wait_s=3600, record=target / "measure-call.json"
+    )
     for name, contents in files.items():
         path = target / name
         path.parent.mkdir(parents=True, exist_ok=True)
