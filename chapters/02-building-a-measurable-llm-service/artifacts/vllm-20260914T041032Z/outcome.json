@@ -1,0 +1,559 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-09-14T04:14:33.563889+00:00",
+  "status": "completed",
+  "config": {
+    "schema_version": 1,
+    "model": "Qwen/Qwen2.5-1.5B-Instruct",
+    "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "repeats": 3,
+    "concurrency": [
+      1,
+      4
+    ],
+    "warmup_requests": 4,
+    "max_tokens": 64,
+    "prompt_token_limit": 256,
+    "request_cap": 180,
+    "request_deadline_s": 30,
+    "idle_timeout_s": 10,
+    "run_deadline_s": 900,
+    "flush_reserve_s": 15,
+    "objective_latency_s": 5,
+    "prompts": [
+      {
+        "id": "uppercase-00",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only this word in uppercase: amber"
+          }
+        ],
+        "expected_text": "AMBER"
+      },
+      {
+        "id": "uppercase-01",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only this word in uppercase: birch"
+          }
+        ],
+        "expected_text": "BIRCH"
+      },
+      {
+        "id": "uppercase-02",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only this word in uppercase: cedar"
+          }
+        ],
+        "expected_text": "CEDAR"
+      },
+      {
+        "id": "uppercase-03",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only this word in uppercase: delta"
+          }
+        ],
+        "expected_text": "DELTA"
+      },
+      {
+        "id": "uppercase-04",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only this word in uppercase: elm"
+          }
+        ],
+        "expected_text": "ELM"
+      },
+      {
+        "id": "uppercase-05",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only this word in uppercase: fern"
+          }
+        ],
+        "expected_text": "FERN"
+      },
+      {
+        "id": "uppercase-06",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only this word in uppercase: granite"
+          }
+        ],
+        "expected_text": "GRANITE"
+      },
+      {
+        "id": "uppercase-07",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only this word in uppercase: harbor"
+          }
+        ],
+        "expected_text": "HARBOR"
+      },
+      {
+        "id": "uppercase-08",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only this word in uppercase: iris"
+          }
+        ],
+        "expected_text": "IRIS"
+      },
+      {
+        "id": "uppercase-09",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only this word in uppercase: jade"
+          }
+        ],
+        "expected_text": "JADE"
+      },
+      {
+        "id": "uppercase-10",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only this word in uppercase: kite"
+          }
+        ],
+        "expected_text": "KITE"
+      },
+      {
+        "id": "uppercase-11",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only this word in uppercase: lemon"
+          }
+        ],
+        "expected_text": "LEMON"
+      },
+      {
+        "id": "explain-00",
+        "messages": [
+          {
+            "role": "user",
+            "content": "In one short sentence, explain a network timeout to a software engineer."
+          }
+        ]
+      },
+      {
+        "id": "explain-01",
+        "messages": [
+          {
+            "role": "user",
+            "content": "In one short sentence, explain a queue to a software engineer."
+          }
+        ]
+      },
+      {
+        "id": "explain-02",
+        "messages": [
+          {
+            "role": "user",
+            "content": "In one short sentence, explain a cache hit to a software engineer."
+          }
+        ]
+      },
+      {
+        "id": "explain-03",
+        "messages": [
+          {
+            "role": "user",
+            "content": "In one short sentence, explain a retry to a software engineer."
+          }
+        ]
+      },
+      {
+        "id": "explain-04",
+        "messages": [
+          {
+            "role": "user",
+            "content": "In one short sentence, explain a process to a software engineer."
+          }
+        ]
+      },
+      {
+        "id": "explain-05",
+        "messages": [
+          {
+            "role": "user",
+            "content": "In one short sentence, explain a health check to a software engineer."
+          }
+        ]
+      },
+      {
+        "id": "explain-06",
+        "messages": [
+          {
+            "role": "user",
+            "content": "In one short sentence, explain a load balancer to a software engineer."
+          }
+        ]
+      },
+      {
+        "id": "explain-07",
+        "messages": [
+          {
+            "role": "user",
+            "content": "In one short sentence, explain a connection pool to a software engineer."
+          }
+        ]
+      },
+      {
+        "id": "explain-08",
+        "messages": [
+          {
+            "role": "user",
+            "content": "In one short sentence, explain a request identifier to a software engineer."
+          }
+        ]
+      },
+      {
+        "id": "explain-09",
+        "messages": [
+          {
+            "role": "user",
+            "content": "In one short sentence, explain a deployment rollback to a software engineer."
+          }
+        ]
+      },
+      {
+        "id": "explain-10",
+        "messages": [
+          {
+            "role": "user",
+            "content": "In one short sentence, explain a memory limit to a software engineer."
+          }
+        ]
+      },
+      {
+        "id": "explain-11",
+        "messages": [
+          {
+            "role": "user",
+            "content": "In one short sentence, explain a streaming response to a software engineer."
+          }
+        ]
+      }
+    ]
+  },
+  "config_sha256": "541d4e93b111944da6b481c50fc9837e7f04d0636dea302a4382807e372f82c0",
+  "metadata": {
+    "evidence_kind": "GPU measurement",
+    "engine": "vLLM",
+    "engine_image": "vllm/vllm-openai@sha256:082ca6f035279109041ffd3fe0695cb568b29bc580b35c4f297a66a08b216c1b",
+    "api_server": "vLLM packaged OpenAI-compatible server",
+    "serving_framework": null,
+    "platform": "temporary Modal Function",
+    "topology": "client and API server in same container; loopback HTTP",
+    "excluded": "Internet and laptop-to-cloud request latency",
+    "resources": {
+      "gpu": "L4:1",
+      "cpu_cores": 2,
+      "memory_mib": 16384
+    },
+    "source": {
+      "files": {
+        "code/analyze.py": "9bfb29bc7de7ae46f1b7e3be37832758e476e0b5d940c6a637737ef53fcd7314",
+        "code/client.py": "557834e6280da80834062b6949119841c0f2d0a44c83e9608f974e23f9091aa7",
+        "code/experiment.py": "4c1e4bb648447f734755b0b5c4d2c86d77ac0f40f346997a42706570da30be8b",
+        "code/modal_app.py": "bd0e53180846200692ba01d7fc7499317f39e62be4486593982953d0bad28d87",
+        "code/prepare_model.py": "7b00e10ae94e0659ebb8b1d3cbd83d847fd50761b67a4d03c43a553eab64012f",
+        "code/records.py": "f3f2dc33d7863656eae1743bdcb7a53d3ad526315eeb904e0e7ae7ae9d7fd87f",
+        "code/server_process.py": "783640745146c7af3e461b27a116ad7c9b7c8831b1c88a0f2643d8f831e8752c"
+      },
+      "config_sha256": "c2c4887399af67912eaa5bb928fe87837b62872b3ead2bba1dcdf85552c0ca04",
+      "git_commit": "0a73e200d63fdc1c2cfe8b33ec271aa238435fb6",
+      "git_status": " M ../../CLAUDE.md\n M ../../DEVELOPMENT.md\n M ../../README.md\n M ../../pyproject.toml\n M ../../uv.lock\n?? ../../AGENTS.md\n?? ./\n"
+    },
+    "command": [
+      "vllm",
+      "serve",
+      "/cache/qwen2.5-1.5b-989aa798",
+      "--served-model-name",
+      "Qwen/Qwen2.5-1.5B-Instruct",
+      "--tokenizer",
+      "/cache/qwen2.5-1.5b-989aa798",
+      "--dtype",
+      "bfloat16",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "8000",
+      "--max-model-len",
+      "1024",
+      "--max-num-seqs",
+      "4",
+      "--gpu-memory-utilization",
+      "0.75",
+      "--no-enable-prefix-caching",
+      "--generation-config",
+      "vllm",
+      "--seed",
+      "17",
+      "--enforce-eager"
+    ],
+    "versions": {
+      "vllm": "0.29.0",
+      "torch": "2.13.0+cu130",
+      "transformers": "5.16.1",
+      "httpx": "0.28.1"
+    },
+    "nvidia_smi": "Mon Sep 14 04:12:15 2026       \n+-----------------------------------------------------------------------------------------+\n| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |\n+-----------------------------------------+------------------------+----------------------+\n| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n|                                         |                        |               MIG M. |\n|=========================================+========================+======================|\n|   0  NVIDIA L4                      On  |   00000000:00:07.0 Off |                    0 |\n| N/A   60C    P8             17W /   72W |       3MiB /  23034MiB |      0%      Default |\n|                                         |                        |                  N/A |\n+-----------------------------------------+------------------------+----------------------+\n\n+-----------------------------------------------------------------------------------------+\n| Processes:                                                                              |\n|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |\n|        ID   ID                                                               Usage      |\n|=========================================================================================|\n|  No running processes found                                                             |\n+-----------------------------------------------------------------------------------------+\n",
+    "model_preparation": {
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+      "prompt_tokens": {
+        "uppercase-00": 2,
+        "uppercase-01": 2,
+        "uppercase-02": 2,
+        "uppercase-03": 2,
+        "uppercase-04": 2,
+        "uppercase-05": 2,
+        "uppercase-06": 2,
+        "uppercase-07": 2,
+        "uppercase-08": 2,
+        "uppercase-09": 2,
+        "uppercase-10": 2,
+        "uppercase-11": 2,
+        "explain-00": 2,
+        "explain-01": 2,
+        "explain-02": 2,
+        "explain-03": 2,
+        "explain-04": 2,
+        "explain-05": 2,
+        "explain-06": 2,
+        "explain-07": 2,
+        "explain-08": 2,
+        "explain-09": 2,
+        "explain-10": 2,
+        "explain-11": 2
+      },
+      "chat_template": "{%- if tools %}\n    {{- '<|im_start|>system\\n' }}\n    {%- if messages[0]['role'] == 'system' %}\n        {{- messages[0]['content'] }}\n    {%- else %}\n        {{- 'You are Qwen, created by Alibaba Cloud. You are a helpful assistant.' }}\n    {%- endif %}\n    {{- \"\\n\\n# Tools\\n\\nYou may call one or more functions to assist with the user query.\\n\\nYou are provided with function signatures within <tools></tools> XML tags:\\n<tools>\" }}\n    {%- for tool in tools %}\n        {{- \"\\n\" }}\n        {{- tool | tojson }}\n    {%- endfor %}\n    {{- \"\\n</tools>\\n\\nFor each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:\\n<tool_call>\\n{\\\"name\\\": <function-name>, \\\"arguments\\\": <args-json-object>}\\n</tool_call><|im_end|>\\n\" }}\n{%- else %}\n    {%- if messages[0]['role'] == 'system' %}\n        {{- '<|im_start|>system\\n' + messages[0]['content'] + '<|im_end|>\\n' }}\n    {%- else %}\n        {{- '<|im_start|>system\\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\\n' }}\n    {%- endif %}\n{%- endif %}\n{%- for message in messages %}\n    {%- if (message.role == \"user\") or (message.role == \"system\" and not loop.first) or (message.role == \"assistant\" and not message.tool_calls) %}\n        {{- '<|im_start|>' + message.role + '\\n' + message.content + '<|im_end|>' + '\\n' }}\n    {%- elif message.role == \"assistant\" %}\n        {{- '<|im_start|>' + message.role }}\n        {%- if message.content %}\n            {{- '\\n' + message.content }}\n        {%- endif %}\n        {%- for tool_call in message.tool_calls %}\n            {%- if tool_call.function is defined %}\n                {%- set tool_call = tool_call.function %}\n            {%- endif %}\n            {{- '\\n<tool_call>\\n{\"name\": \"' }}\n            {{- tool_call.name }}\n            {{- '\", \"arguments\": ' }}\n            {{- tool_call.arguments | tojson }}\n            {{- '}\\n</tool_call>' }}\n        {%- endfor %}\n        {{- '<|im_end|>\\n' }}\n    {%- elif message.role == \"tool\" %}\n        {%- if (loop.index0 == 0) or (messages[loop.index0 - 1].role != \"tool\") %}\n            {{- '<|im_start|>user' }}\n        {%- endif %}\n        {{- '\\n<tool_response>\\n' }}\n        {{- message.content }}\n        {{- '\\n</tool_response>' }}\n        {%- if loop.last or (messages[loop.index0 + 1].role != \"tool\") %}\n            {{- '<|im_end|>\\n' }}\n        {%- endif %}\n    {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n    {{- '<|im_start|>assistant\\n' }}\n{%- endif %}\n",
+      "chat_template_sha256": "cd8e9439f0570856fd70470bf8889ebd8b5d1107207f67a5efb46e342330527f"
+    },
+    "prefix_cache_verification": [
+      "vllm:cache_config_info{_block_size_resolved=\"True\",block_size=\"16\",cache_dtype=\"auto\",enable_prefix_caching=\"False\",engine=\"0\",gpu_memory_utilization=\"0.75\",is_attention_free=\"False\",kv_cache_dtype_skip_layers=\"[]\",kv_cache_layout=\"None\",kv_cache_max_concurrency=\"485.9375\",kv_cache_memory_bytes=\"None\",kv_cache_size_tokens=\"497600\",kv_offloading_backend=\"native\",kv_offloading_size=\"None\",kv_sharing_fast_prefill=\"False\",mamba_block_size=\"None\",mamba_cache_dtype=\"auto\",mamba_cache_mode=\"none\",mamba_page_size_padded=\"None\",mamba_ssm_cache_dtype=\"auto\",num_cpu_blocks=\"None\",num_gpu_blocks=\"31100\",num_gpu_blocks_override=\"None\",prefix_cache_retention_interval=\"0\",prefix_caching_hash_algo=\"sha256\",prefix_match_unit=\"None\",replayssm_buffer_len=\"16\",skip_page_size_padded=\"None\",sliding_window=\"None\",use_kda_recoverssm=\"False\",use_replayssm=\"False\",user_specified_block_size=\"False\",user_specified_mamba_block_size=\"False\"} 1.0"
+    ]
+  },
+  "schedule": [
+    "r0001",
+    "r0002",
+    "r0003",
+    "r0004",
+    "r0005",
+    "r0006",
+    "r0007",
+    "r0008",
+    "r0009",
+    "r0010",
+    "r0011",
+    "r0012",
+    "r0013",
+    "r0014",
+    "r0015",
+    "r0016",
+    "r0017",
+    "r0018",
+    "r0019",
+    "r0020",
+    "r0021",
+    "r0022",
+    "r0023",
+    "r0024",
+    "r0025",
+    "r0026",
+    "r0027",
+    "r0028",
+    "r0029",
+    "r0030",
+    "r0031",
+    "r0032",
+    "r0033",
+    "r0034",
+    "r0035",
+    "r0036",
+    "r0037",
+    "r0038",
+    "r0039",
+    "r0040",
+    "r0041",
+    "r0042",
+    "r0043",
+    "r0044",
+    "r0045",
+    "r0046",
+    "r0047",
+    "r0048",
+    "r0049",
+    "r0050",
+    "r0051",
+    "r0052",
+    "r0053",
+    "r0054",
+    "r0055",
+    "r0056",
+    "r0057",
+    "r0058",
+    "r0059",
+    "r0060",
+    "r0061",
+    "r0062",
+    "r0063",
+    "r0064",
+    "r0065",
+    "r0066",
+    "r0067",
+    "r0068",
+    "r0069",
+    "r0070",
+    "r0071",
+    "r0072",
+    "r0073",
+    "r0074",
+    "r0075",
+    "r0076",
+    "r0077",
+    "r0078",
+    "r0079",
+    "r0080",
+    "r0081",
+    "r0082",
+    "r0083",
+    "r0084",
+    "r0085",
+    "r0086",
+    "r0087",
+    "r0088",
+    "r0089",
+    "r0090",
+    "r0091",
+    "r0092",
+    "r0093",
+    "r0094",
+    "r0095",
+    "r0096",
+    "r0097",
+    "r0098",
+    "r0099",
+    "r0100",
+    "r0101",
+    "r0102",
+    "r0103",
+    "r0104",
+    "r0105",
+    "r0106",
+    "r0107",
+    "r0108",
+    "r0109",
+    "r0110",
+    "r0111",
+    "r0112",
+    "r0113",
+    "r0114",
+    "r0115",
+    "r0116",
+    "r0117",
+    "r0118",
+    "r0119",
+    "r0120",
+    "r0121",
+    "r0122",
+    "r0123",
+    "r0124",
+    "r0125",
+    "r0126",
+    "r0127",
+    "r0128",
+    "r0129",
+    "r0130",
+    "r0131",
+    "r0132",
+    "r0133",
+    "r0134",
+    "r0135",
+    "r0136",
+    "r0137",
+    "r0138",
+    "r0139",
+    "r0140",
+    "r0141",
+    "r0142",
+    "r0143",
+    "r0144",
+    "r0145",
+    "r0146",
+    "r0147",
+    "r0148",
+    "r0149",
+    "r0150",
+    "r0151",
+    "r0152",
+    "r0153",
+    "r0154",
+    "r0155",
+    "r0156",
+    "r0157",
+    "r0158",
+    "r0159",
+    "r0160",
+    "r0161",
+    "r0162",
+    "r0163",
+    "r0164",
+    "r0165",
+    "r0166",
+    "r0167",
+    "r0168",
+    "r0169",
+    "r0170",
+    "r0171"
+  ],
+  "generation_requests": 171,
+  "models_response": {
+    "object": "list",
+    "data": [
+      {
+        "id": "Qwen/Qwen2.5-1.5B-Instruct",
+        "object": "model",
+        "created": 1789359273,
+        "owned_by": "vllm",
+        "root": "/cache/qwen2.5-1.5b-989aa798",
+        "parent": null,
+        "max_model_len": 1024,
+        "permission": [
+          {
+            "id": "modelperm-9f3d03196f745964",
+            "object": "model_permission",
+            "created": 1789359273,
+            "allow_create_engine": false,
+            "allow_sampling": true,
+            "allow_logprobs": true,
+            "allow_search_indices": false,
+            "allow_view": true,
+            "allow_fine_tuning": false,
+            "organization": "*",
+            "group": null,
+            "is_blocking": false
+          }
+        ]
+      }
+    ]
+  },
+  "error": null,
+  "elapsed_s": 40.82630176799998
+}

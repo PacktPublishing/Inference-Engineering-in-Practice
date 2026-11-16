@@ -1,0 +1,14 @@
+{
+  "status": "validated",
+  "measured_successes": 144,
+  "measured_failures": 0,
+  "stream_reconstruction": "passed",
+  "prompt_lengths_match_preparation": true,
+  "source_hashes": "matched",
+  "teardown": {
+    "state": "stopped",
+    "tasks": 0,
+    "app_id": "ap-4pZyTgQehuhstNneTDaCep"
+  },
+  "observed_charge_usd": null
+}

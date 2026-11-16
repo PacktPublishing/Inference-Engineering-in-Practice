@@ -1,0 +1,23 @@
+{
+  "status": "validated",
+  "counts": {
+    "measured_success": 144,
+    "warmup_success": 144,
+    "smoke_success": 2,
+    "deliberate_client_cancel": 1
+  },
+  "prompt_counts_match_preparation": true,
+  "source_hashes": "matched",
+  "stream_reconstruction": "passed",
+  "teardown": {
+    "app_id": "ap-m5JwRWXuftDdmszTAa3b4P",
+    "state": "stopped",
+    "tasks": 0
+  },
+  "limitations": [
+    "Loopback client and engine-packaged API frontend",
+    "Small sequential repeats",
+    "Cancellation resource reclamation unverified",
+    "Dependencies and engine-internal allocations differ"
+  ]
+}

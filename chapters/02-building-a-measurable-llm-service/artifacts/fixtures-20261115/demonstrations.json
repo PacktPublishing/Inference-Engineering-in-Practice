@@ -1,0 +1,94 @@
+{
+  "evidence_kind": "SYNTHETIC FIXTURE; timings are not model performance",
+  "segmentation": [
+    {
+      "case": "one-event",
+      "text": "hello",
+      "content_events": 1,
+      "fixture_reported_tokens": 1,
+      "window_s": 0.011454249965026975,
+      "wrong_events_as_tokens_per_s": 87.30383945289122,
+      "correct_fixture_tokens_per_s": 87.30383945289122
+    },
+    {
+      "case": "five-events",
+      "text": "hello",
+      "content_events": 5,
+      "fixture_reported_tokens": 1,
+      "window_s": 0.011257249861955643,
+      "wrong_events_as_tokens_per_s": 444.1582146006827,
+      "correct_fixture_tokens_per_s": 88.83164292013655
+    }
+  ],
+  "failure_accounting": {
+    "statuses": [
+      "success",
+      "deadline"
+    ],
+    "correct_all_outcomes": {
+      "repeat": 0,
+      "concurrency": 1,
+      "requests": 2,
+      "successes": 1,
+      "failures": 1,
+      "window_s": 0.11386033403687179,
+      "failure_fraction": 0.5,
+      "requests_per_s": 8.782689849444553,
+      "counted_output_tokens_per_s": 8.782689849444553,
+      "token_count_coverage": 1.0,
+      "objective_fraction": 0.5,
+      "objective_requests_per_s": 8.782689849444553,
+      "completion_s_n": 1,
+      "completion_s_median": 0.0116931670345366,
+      "completion_s_min": 0.0116931670345366,
+      "completion_s_max": 0.0116931670345366,
+      "first_content_s_n": 1,
+      "first_content_s_median": 0.011646999977529049,
+      "first_content_s_min": 0.011646999977529049,
+      "first_content_s_max": 0.011646999977529049,
+      "output_tokens_n": 1,
+      "output_tokens_median": 1,
+      "output_tokens_min": 1,
+      "output_tokens_max": 1,
+      "approx_output_interval_s_n": 0,
+      "approx_output_interval_s_median": null,
+      "approx_output_interval_s_min": null,
+      "approx_output_interval_s_max": null
+    },
+    "wrong_failed_request_removed": {
+      "repeat": 0,
+      "concurrency": 1,
+      "requests": 1,
+      "successes": 1,
+      "failures": 0,
+      "window_s": 0.0116931670345366,
+      "failure_fraction": 0.0,
+      "requests_per_s": 85.52003037726467,
+      "counted_output_tokens_per_s": 85.52003037726467,
+      "token_count_coverage": 1.0,
+      "objective_fraction": 1.0,
+      "objective_requests_per_s": 85.52003037726467,
+      "completion_s_n": 1,
+      "completion_s_median": 0.0116931670345366,
+      "completion_s_min": 0.0116931670345366,
+      "completion_s_max": 0.0116931670345366,
+      "first_content_s_n": 1,
+      "first_content_s_median": 0.011646999977529049,
+      "first_content_s_min": 0.011646999977529049,
+      "first_content_s_max": 0.011646999977529049,
+      "output_tokens_n": 1,
+      "output_tokens_median": 1,
+      "output_tokens_min": 1,
+      "output_tokens_max": 1,
+      "approx_output_interval_s_n": 0,
+      "approx_output_interval_s_median": null,
+      "approx_output_interval_s_min": null,
+      "approx_output_interval_s_max": null
+    }
+  },
+  "limits": [
+    "Token usage is defined by the fixture, not a tokenizer",
+    "In-process HTTP transport, no network, engine or GPU",
+    "Actual elapsed times vary; compare arithmetic within each recorded case"
+  ]
+}

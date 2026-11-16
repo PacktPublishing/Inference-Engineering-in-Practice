@@ -6,8 +6,9 @@ content and its spending limit is not guidance for readers.
 ## Git ownership
 
 The author owns repository history. Agents may edit and validate the working
-tree, but must never commit or push. The author reviews, commits, and pushes all
-changes.
+tree. Commit or push only when the author explicitly requests it for the current
+work. Follow [AGENTS.md](AGENTS.md), the canonical guidance for coding, writing,
+evidence and remote execution.
 
 ## Bootstrap
 
@@ -25,66 +26,68 @@ Authentication itself does not run GPU code.
 
 ## Current implementation scope
 
-Chapter 1 is the only implemented chapter. The former Chapter 2 implementation,
+Chapters 1 and 2 now have implemented code. The former Chapter 2 implementation,
 shared serving benchmarks, simulations, model profiles, and GPU results were
 removed on 13 September 2026. Rebuild Chapter 2 from its revised service and
 measurement story, adding code only as each example needs it. The run log below
-is historical accounting; its approvals do not authorize new runs.
+is historical accounting; its approvals do not authorize new runs. The detailed
+Chapter 2 plan is now in the ignored `author/Chapter_02_Plan.md`; implementation
+and the first validated vLLM evidence is available in the Chapter 2 artifacts.
 
-## Modal is a GPU sandbox only
+## Modal is a replaceable GPU runner
 
-Modal is used only when a result genuinely requires an NVIDIA GPU. The
-educational modules stay platform-neutral; `modal_app.py` is a thin remote
-runner around them.
+Prioritize clear teaching, representative engine behavior and transferable
+engineering practices. Proceed with implementation, necessary diagnostics and
+chapter experiments within the requested scope. Record each run's purpose,
+configuration, evidence and outcome.
 
-Before every chargeable Modal command:
+Choose examples, hardware, sample sizes and engine settings for clear teaching
+and representative behavior. Do not disable normal engine features, truncate
+necessary experiments or choose artificial defaults solely to minimize a
+cloud bill. A small model remains appropriate when it isolates the chapter's
+question and lowers reader prerequisites. Keep larger models in the chapters
+where they explain a new mechanism; spending freedom is not a reason for an
+unnecessary full benchmark matrix.
 
-1. Run all local tests first.
-2. Check current-month Modal usage and remaining credits in the Modal dashboard.
-   Modal CLI 1.2.6 does not provide a `modal billing` command.
-3. Estimate the worst-case run cost from the selected GPU's current per-second
-   price and the function timeout.
-4. Record the date, current spend, remaining credit, GPU, timeout, and estimate
-   in the run log below.
-5. Ask the author before starting any remote code execution.
+Modal is a replaceable compute adapter. Engine launch, readiness, request
+handling, measurement and analysis should be executable on an ordinary Linux
+GPU machine or in an engine container, using the same configuration and code.
+Put provider-specific provisioning, credentials and artifact transfer only in
+the adapter. Clearly distinguish client, API server, engine and framework
+responsibilities and document the actual measurement topology.
 
-The hard development limit is **$30 of total Modal spend per calendar month**.
-Do not start a job when current spend plus the worst-case estimate could exceed
-that limit. Ask the author whether to reduce the experiment or explicitly
-change the limit.
-
-Use the least expensive practical GPU type/count pinned by the selected model
-profile, one container, bounded timeouts, zero warm containers, zero retries,
-and no deployed endpoint. Prepare immutable model weights in a separate
-CPU-only function before measured GPU work. Consolidate related experiments
-after local correctness checks pass. A persistent Volume may cache downloaded
-weights, but no compute should remain active after the function returns.
+Keep bounded concurrency, request/run deadlines, cancellation, failure records,
+partial evidence and verified cleanup as operational teaching patterns. Allow
+realistic startup and warmup for normal engine execution. Avoid hidden retries
+in measurements; make diagnostic reruns explicit and preserve their evidence.
+Record resources, versions and observed spend when available, but distinguish
+measurement duration from billing and estimates from actual charges.
 
 ## Modal run log
 
-Add one row before each approved remote run.
+Record the configuration and outcome of each remote run.
 
-| Date | Current spend | Credit left | GPU | Timeout | Worst-case estimate | Approved |
-| --- | ---: | ---: | --- | ---: | ---: | --- |
-| 2026-07-22 | $0.00 reported | $30.00 internal cap remaining | L4 | 600 s | < $0.25 | Yes, in chat |
-| 2026-07-22 | < $0.05 estimated; report lag | > $29.95 internal cap remaining | L4 | 600 s | < $0.25 | Yes, corrected run in chat |
-| 2026-07-27 | $0.02035 reported | $29.98 internal cap remaining | A100-80GB | 3,600 s | < $2.75 | Yes, cat edit in chat |
-| 2026-08-23 | Not CLI-verifiable | $30 credit reported available | L4 | 1,200 s | < $0.75 | Yes, exact bounded run in chat |
-| 2026-08-23 | First attempt aborted before GPU; not CLI-verifiable | About $30 reported available | L4 | 1,200 s | < $0.75 | Yes, corrected CUDA 12.9 retry in chat |
-| 2026-08-23 | Two attempts stopped before GPU; not CLI-verifiable | About $30 reported available | L4 | 1,200 s | < $0.75 | Yes, dependency-fixed retry in chat |
-| 2026-08-23 | About $0.06 estimated GPU runtime; not CLI-verifiable | About $29.94 estimated available | L4 | 1,200 s | < $0.75 | Yes, usage-chunk parser retry in chat |
-| 2026-08-23 | $0.10 reported | $29.90 internal cap remaining | L4/H100 representative wave | 480/600/1,200 s GPU; 7,200 s CPU prep | $7.6243 maximum including contingency | Yes, exact small/mid wave in chat |
-| 2026-08-23 | Initial representative attempt failed during CPU import; no GPU allocated | At least $29.85 estimated internal cap remaining | None | < 2 min before stop | < $0.05 estimated, covered by contingency | Yes, corrected retry in chat |
-| 2026-08-23 | Corrected retry reached a healthy server, then failed during exact-length prompt construction | At least $29.76 estimated internal cap remaining | L4 | About 4.5 min | < $0.09 estimated, covered by contingency | Yes, tokenizer-fixed retry in chat |
-| 2026-08-23 | Calibration completed, but excluded because vLLM default prefix caching remained enabled | At least $29.67 estimated internal cap remaining | L4 | About 4.5 min | < $0.09 estimated, covered by contingency | Yes, explicit-disable retry in chat |
-| 2026-08-23 | Explicit-disable run stopped after the project-local Modal client disconnected; no artifacts returned | At least $29.52 estimated internal cap remaining | L4 | Less than the 480 s bound | < $0.1488 maximum | Yes, clean-client retry in chat |
-| 2026-08-23 | Clean 1.5B BF16 calibration completed; three bundles checksum-validated | At least $29.37 estimated internal cap remaining | L4 | Less than the 480 s bound | < $0.1488 maximum | Yes, approved representative wave |
-| 2026-08-23 | 122B BF16/FP8 checkpoint preparation approved in parallel; GPU launch remains gated on 27B Qwen3.5 smoke | At least $29.37 before new operations | None for preparation | 7,200 s per preparation | $1.266048 combined preparation maximum; $13.505848 full wave maximum | Yes, staged parallel schedule in chat |
-| 2026-08-23 | 7B BF16 and AWQ calibrations completed in parallel; six bundles checksum-validated | At least $27.69 before large-model preparation | 2 x L4 | 600 s per GPU function | $1.680576 combined preparation and run maximum | Yes, staged parallel schedule in chat |
-| 2026-08-23 | 27B BF16 completed and validated; 27B FP8 reached DeepGEMM warmup but exceeded the generic 600 s readiness cap | At least $21.76 after large preparation and original 27B maximum exposures | 2 x H100 | 1,200 s per GPU function | $4.661856 combined preparation and run maximum | Yes, cached proportional-readiness FP8 retry in chat |
-| 2026-08-23 | 27B Qwen3.5 gate satisfied; cached 122B BF16/FP8 GPU pair released | At least $20.06 before 122B GPU maximum exposure | 3 x H200 total | 2,400 s BF16; 1,800 s FP8 | $12.2398 remaining GPU operations plus contingency | Yes, staged parallel schedule in chat |
-| 2026-08-23 | Cached 27B FP8 retry completed; three bundles checksum-validated | Covered by the approved representative-wave maximum | H100 | Less than 1,200 s | No increase beyond approved timeout exposure | Yes, cached proportional-readiness FP8 retry in chat |
-| 2026-08-23 | 122B BF16 completed and validated; 122B FP8 saved its first-time compile artifacts but exceeded the 1,350 s readiness cap during remaining warmup | Covered by the approved 122B wave maximum | 2 x H200 BF16; 1 x H200 FP8 | Less than 2,400/1,800 s bounds | No increase beyond approved wave exposure; cached FP8 retry requires fresh approval | Yes, staged parallel schedule in chat |
+| Date | Current spend | GPU | Timeout |
+| --- | ---: | --- | ---: |
+| 2026-07-22 | $0.00 reported | L4 | 600 s |
+| 2026-07-22 | < $0.05 estimated; report lag | L4 | 600 s |
+| 2026-07-27 | $0.02035 reported | A100-80GB | 3,600 s |
+| 2026-08-23 | Not CLI-verifiable | L4 | 1,200 s |
+| 2026-08-23 | First attempt aborted before GPU; not CLI-verifiable | L4 | 1,200 s |
+| 2026-08-23 | Two attempts stopped before GPU; not CLI-verifiable | L4 | 1,200 s |
+| 2026-08-23 | About $0.06 estimated GPU runtime; not CLI-verifiable | L4 | 1,200 s |
+| 2026-08-23 | $0.10 reported | L4/H100 representative wave | 480/600/1,200 s GPU; 7,200 s CPU prep |
+| 2026-08-23 | Initial representative attempt failed during CPU import; no GPU allocated | None | < 2 min before stop |
+| 2026-08-23 | Corrected retry reached a healthy server, then failed during exact-length prompt construction | L4 | About 4.5 min |
+| 2026-08-23 | Calibration completed, but excluded because vLLM default prefix caching remained enabled | L4 | About 4.5 min |
+| 2026-08-23 | Explicit-disable run stopped after the project-local Modal client disconnected; no artifacts returned | L4 | Less than the 480 s bound |
+| 2026-08-23 | Clean 1.5B BF16 calibration completed; three bundles checksum-validated | L4 | Less than the 480 s bound |
+| 2026-08-23 | 122B BF16/FP8 checkpoint preparation approved in parallel; GPU launch remains gated on 27B Qwen3.5 smoke | None for preparation | 7,200 s per preparation |
+| 2026-08-23 | 7B BF16 and AWQ calibrations completed in parallel; six bundles checksum-validated | 2 x L4 | 600 s per GPU function |
+| 2026-08-23 | 27B BF16 completed and validated; 27B FP8 reached DeepGEMM warmup but exceeded the generic 600 s readiness cap | 2 x H100 | 1,200 s per GPU function |
+| 2026-08-23 | 27B Qwen3.5 gate satisfied; cached 122B BF16/FP8 GPU pair released | 3 x H200 total | 2,400 s BF16; 1,800 s FP8 |
+| 2026-08-23 | Cached 27B FP8 retry completed; three bundles checksum-validated | H100 | Less than 1,200 s |
+| 2026-08-23 | 122B BF16 completed and validated; 122B FP8 saved its first-time compile artifacts but exceeded the 1,350 s readiness cap during remaining warmup | 2 x H200 BF16; 1 x H200 FP8 | Less than 2,400/1,800 s bounds |
 
 The final 2026-08-23 retry completed successfully. Based on observed runtimes
 and published per-second rates, the two GPU-starting attempts plus image-build
@@ -152,3 +155,100 @@ remove personal files as part of a dependency repair.
 
 References: [Apple on keeping files downloaded](https://support.apple.com/en-gb/guide/mac-help/mchl1a02d711/mac)
 and [uv project environment configuration](https://docs.astral.sh/uv/concepts/projects/config/).
+
+
+## Chapter 2 implementation — 13 September 2026
+
+The author approved code implementation. The HTTP client, fixed experiment,
+JSONL evidence, offline analysis and bounded server lifecycle are implemented.
+`httpx==0.28.1` is now an exact direct dependency in the existing uv lock. GPU
+engine packages remain confined to the pinned remote image.
+
+Validation: 35 repository tests pass; Ruff passes. A local synthetic HTTP run
+completed all 171 scheduled requests, peaked at four concurrent connections,
+and reconstructed the saved streams into six repeat/condition summaries. Its
+bundle is ignored under `artifacts/tmp/chapter02-local-validation`. These are
+fixture observations, not GPU or model-performance evidence.
+
+The [run specification](chapters/02-building-a-measurable-llm-service/RUN_SPEC.md)
+records the current setup. Initial app `ap-sPA65WIc1VxmoPqOnfJCzy` stopped
+before Function registration, with zero tasks confirmed. Its console output
+is `artifacts/tmp/chapter02-vllm-first-console.log`. Manuscript drafting and
+final figures follow validated remote evidence.
+
+### First attempt outcome and prepared correction
+
+At 21:08 PDT on 13 September 2026 the first attempt stopped after image
+preparation. Modal could not determine the image's Python version while
+registering `prepare_weights`. No model download, generation request or GPU
+Function execution occurred. The console log records four successful image
+build stages (144.14, 4.16, 4.80 and 5.34 seconds). This is billable-stage
+evidence, not a dashboard cost; the actual charge remains unverified.
+
+Diagnosis: the pinned vLLM Dockerfile installs `python3` but does not create
+the unversioned `python` command required by Modal Functions. The wrapper now
+adds that alias only if missing and prints interpreter/pip versions during
+build. It retains the image's existing Python and engine packages. This
+correction passed the subsequent remote build and Function registration.
+
+The corrected attempt used fresh output `artifacts/tmp/chapter02-vllm-second`;
+its console log is `artifacts/tmp/chapter02-vllm-second-console.log`.
+
+### Completed vLLM run
+
+Corrected attempt `ap-7Zaxd3QFpeNn4SFjvapUWb`, run
+`vllm-20260914T041032Z`, completed: 144/144 measured successes, 24 warmups,
+two smoke checks and one deliberate client cancellation. Modal reported
+stopped with zero tasks. The client experiment took 40.83 seconds; full
+startup/preparation time and the actual dashboard bill are separate.
+
+Prompt-count review caught a Transformers 5 return-type assumption. The raw
+manifest is preserved, with a separate correction: cached-tokenizer
+retokenization matched every measured server count (37–44 tokens). The helper
+now explicitly requests token IDs and has a local regression test.
+
+Prefer representative defaults and portable examples. The completed eager-mode
+run is preliminary evidence, not the final comparison baseline.
+
+Representative baseline now runs through platform-neutral `service.py`, also
+used by the Modal adapter. Normal engine execution is enabled (no forced eager
+flag), scheduler limit is 64, GPU function has four CPU cores and a 900-second
+readiness allowance. The revised settings are recorded separately from the
+eager-mode evidence; this is not an isolated CUDA-graph A/B experiment.
+
+The standard SGLang run `sglang-20260914T043435Z` also completed 144/144
+measured requests. Both initial standard apps stopped with zero tasks. The
+first SGLang concurrent repeat was slower than the next two, and the warmup
+covered only short uppercase tasks. A revised matched pair now warms up with
+all 24 prompts per condition (291 total requests, 144 measured) and signals
+the server parent first during shutdown. Local tests include cooperative
+worker drainage. Earlier observations are retained as diagnostic evidence.
+
+Revised pair (both now stopped): vLLM app `ap-dJ6sl3cU1fJO08WykBUC3G`, SGLang app
+`ap-O3whEBVpHrn3Q2pGb3HAkA`. Both use one L4 and four CPU cores, independently.
+
+
+The full-warmup vLLM run `vllm-20260914T044208Z` completed. SGLang attempt
+`sglang-20260914T044205Z` stopped at its first smoke request: `/v1/models`
+responded while internal server warmup was still running. The failed record
+and server log are retained. The correction waits on `/health` with SGLang
+health generation disabled; the measured timeout settings are unchanged.
+A local readiness-race test passes. Retry `sglang-20260914T044837Z` uses app
+`ap-m5JwRWXuftDdmszTAa3b4P` and the current recommended `sglang serve` command.
+
+
+### Final Chapter 2 pair validated
+
+SGLang retry `sglang-20260914T044837Z` completed after the readiness correction.
+Together with vLLM `vllm-20260914T044208Z`, it provides 288/288 successful measured
+requests, 288 successful warmups, four successful smoke checks and two deliberate
+client cancellations. Prompt-count checks and event reconstruction passed;
+executed source snapshots match their recorded hashes. All Modal apps were
+verified stopped with zero tasks after the final run. Model and evidence
+volumes remain available for reuse.
+
+The [curated comparison](chapters/02-building-a-measurable-llm-service/artifacts/comparison-20260914/README.md)
+contains per-repeat results, reproducible analysis, controls and limitations.
+The failed readiness attempt remains separate diagnostic evidence. Engine
+shutdown warnings are retained; stopped app state does not establish per-request
+resource reclamation for the client cancellation probes.

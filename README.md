@@ -12,8 +12,8 @@ complete programs, tests, and reproducibility metadata.
 
 - [Chapter 1: Following an LLM Request Through the Inference Stack](chapters/01-how-llm-inference-works)
 
-Chapter 2, *Building a Measurable LLM Service*, will be written and implemented
-from scratch under the revised concept-first plan.
+- [Chapter 2: Building a Measurable LLM Service](chapters/02-building-a-measurable-llm-service)
+  — portable service/client implemented; matched vLLM/SGLang evidence validated.
 
 ## Local setup
 

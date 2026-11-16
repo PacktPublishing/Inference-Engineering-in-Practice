@@ -1,0 +1,2 @@
+{"request_id": "r0001", "kind": "submitted", "elapsed_s": 0.0, "payload": {"model": "Qwen/Qwen2.5-1.5B-Instruct", "messages": [{"role": "user", "content": "Return only this word in uppercase: amber"}], "n": 1, "temperature": 0, "max_tokens": 64, "stream": false}}
+{"request_id": "r0001", "kind": "terminal", "elapsed_s": 10.002146119000002, "status": "idle_timeout"}

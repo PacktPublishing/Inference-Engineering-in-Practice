@@ -1,0 +1,23 @@
+{
+  "stream_reconstruction": "passed for all records",
+  "counts": {
+    "smoke_success": 2,
+    "warmup_success": 24,
+    "measurement_success": 144,
+    "cancelled_probe": 1
+  },
+  "prompt_count_correction": "See prompt-validation.json; original metadata preserved.",
+  "teardown": {
+    "modal_app": "ap-7Zaxd3QFpeNn4SFjvapUWb",
+    "state": "stopped",
+    "tasks": 0,
+    "stopped_at": "2026-09-13 21:15:18 PDT"
+  },
+  "limitations": [
+    "Single engine, single small workload, three sequential repeats",
+    "Client/API loopback measurements; no Internet latency",
+    "Eager execution; not a tuned engine comparison",
+    "Cancellation proves client closure; engine reclamation unverified",
+    "Output checks are exact uppercase/nonempty text, not a quality benchmark"
+  ]
+}

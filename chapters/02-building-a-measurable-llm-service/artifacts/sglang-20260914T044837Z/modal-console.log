@@ -1,0 +1,27 @@
+✓ Initialized. View run at 
+https://modal.com/apps/dewangsultania/main/ap-m5JwRWXuftDdmszTAa3b4P
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/dewangsultania/Developer/llm-inference-engineering/chapters/02-buildi
+│   ng-a-measurable-llm-service/code/modal_app.py
+├── 🔨 Created mount 
+│   /Users/dewangsultania/Developer/llm-inference-engineering/chapters/02-buildi
+│   ng-a-measurable-llm-service/experiment.json
+├── 🔨 Created mount 
+│   /Users/dewangsultania/Developer/llm-inference-engineering/chapters/02-buildi
+│   ng-a-measurable-llm-service/code
+├── 🔨 Created function prepare_weights.
+└── 🔨 Created function measure.
+Run ID: sglang-20260914T044837Z; partial evidence volume: inference-book-chapter-02-evidence
+
+[1AFetching 7 files:   0%|          | 0/7 [00:00<?, ?it/s]
+[1AFetching 7 files: 100%|██████████| 7/7 [00:00<00:00, 161.11it/s]
+{
+  "run_id": "sglang-20260914T044837Z",
+  "status": "completed",
+  "error": null,
+  "output": "/Users/dewangsultania/Developer/llm-inference-engineering/artifacts/tmp/chapter02-sglang-ready"
+}
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/dewangsultania/main/ap-m5JwRWXuftDdmszTAa3b4P

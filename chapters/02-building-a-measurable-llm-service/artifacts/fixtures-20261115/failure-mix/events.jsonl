@@ -1,0 +1,10 @@
+{"request_id": "r0001", "kind": "submitted", "elapsed_s": 0.0, "payload": {"model": "fixture", "messages": [{"role": "user", "content": "hello"}], "n": 1, "temperature": 0, "max_tokens": 64, "stream": true, "stream_options": {"include_usage": true}}}
+{"request_id": "r0001", "kind": "headers", "elapsed_s": 0.0005785839166492224, "http_status": 200}
+{"request_id": "r0001", "kind": "sse", "elapsed_s": 0.011646999977529049, "payload": {"id": "synthetic-response", "model": "fixture", "choices": [{"index": 0, "delta": {"content": "hello"}, "finish_reason": null}]}}
+{"request_id": "r0001", "kind": "sse", "elapsed_s": 0.01166387484408915, "payload": {"id": "synthetic-response", "model": "fixture", "choices": [{"index": 0, "delta": {}, "finish_reason": "stop"}]}}
+{"request_id": "r0001", "kind": "sse", "elapsed_s": 0.011672375025227666, "payload": {"id": "synthetic-response", "model": "fixture", "choices": [], "usage": {"prompt_tokens": 3, "completion_tokens": 1}}}
+{"request_id": "r0001", "kind": "done", "elapsed_s": 0.011677833972498775}
+{"request_id": "r0001", "kind": "terminal", "elapsed_s": 0.0116931670345366, "status": "success"}
+{"request_id": "r0002", "kind": "submitted", "elapsed_s": 0.0, "payload": {"model": "fixture", "messages": [{"role": "user", "content": "fail"}], "n": 1, "temperature": 0, "max_tokens": 64, "stream": true, "stream_options": {"include_usage": true}}}
+{"request_id": "r0002", "kind": "headers", "elapsed_s": 0.00012862496078014374, "http_status": 200}
+{"request_id": "r0002", "kind": "terminal", "elapsed_s": 0.102035750169307, "status": "deadline"}
