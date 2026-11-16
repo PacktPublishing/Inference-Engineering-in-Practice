@@ -109,11 +109,11 @@ def compare(first: Path, second: Path, output: Path):
             "summaries": results,
         },
     )
-    plot(results, output)
+    plot(results, output, gpu=left["metadata"]["resources"]["gpu"])
     return results
 
 
-def plot(results, output):
+def plot(results, output, *, gpu):
     import matplotlib
 
     matplotlib.use("Agg")
@@ -141,7 +141,9 @@ def plot(results, output):
                 )
         axis.set(xlabel="Client concurrency", ylabel=title, xticks=[1, 4])
         axis.legend()
-    figure.suptitle("Qwen 1.5B · L4 · loopback API · 3 repeats × 24 requests per condition")
+    figure.suptitle(
+        f"Qwen 1.5B · {gpu} · loopback API · 3 repeats × 24 requests per condition"
+    )
     figure.tight_layout()
     figure.savefig(output / "engine-comparison.png", dpi=180)
     plt.close(figure)

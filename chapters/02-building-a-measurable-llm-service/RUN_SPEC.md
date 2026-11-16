@@ -91,6 +91,28 @@ changed when an experiment needs a different workload or startup profile;
 record the change. There are no hidden client retries inside a measurement.
 Diagnosed reruns preserve their own logs and configuration.
 
+### Explicit hardware alternative
+
+`CHAPTER_GPU=L40S` selects one L40S instead of the default L4. Use the same value
+for both engine runs. The adapter records the selection in local provisioning
+records and remote resource metadata; `nvidia-smi` records the actual device.
+The comparison rejects different resource declarations and labels the plot from
+the saved GPU metadata. Do not combine L4 and L40S samples.
+
+The November current-source rerun uses L40S after two L4 calls remained queued
+without GPU execution. This changes the hardware condition, not the workload.
+Keep the September L4 evidence as a separate historical comparison.
+Both GPUs have compute capability 8.9 in
+[NVIDIA's hardware table](https://developer.nvidia.com/cuda/gpus).
+Runtime validation still checks the pinned images on the allocated device.
+
+```bash
+CHAPTER_GPU=L40S uv run modal run chapters/02-building-a-measurable-llm-service/code/modal_app.py \
+  --output artifacts/tmp/chapter02-vllm-l40s
+CHAPTER_GPU=L40S CHAPTER_ENGINE=sglang uv run modal run chapters/02-building-a-measurable-llm-service/code/modal_app.py \
+  --output artifacts/tmp/chapter02-sglang-l40s
+```
+
 ## Deployment checks and lessons retained
 
 The first image build succeeded but Modal Function registration failed because

@@ -22,6 +22,9 @@ sys.path.insert(0, str(CHAPTER / "code"))
 from engines import IMAGES  # noqa: E402
 
 ENGINE = os.environ.get("CHAPTER_ENGINE", "vllm")
+GPU = os.environ.get("CHAPTER_GPU", "L4")
+if GPU not in {"L4", "L40S"}:
+    raise ValueError("CHAPTER_GPU must be L4 or L40S; use the same GPU for both engines")
 IMAGE = IMAGES[ENGINE]
 MODEL_PATH = Path("/cache/qwen2.5-1.5b-989aa798")
 app = modal.App("inference-book-chapter-02")
@@ -44,6 +47,7 @@ image = (
             "DO_NOT_TRACK": "1",
             "PYTHONPATH": str(REMOTE / "code"),
             "CHAPTER_ENGINE": ENGINE,
+            "CHAPTER_GPU": GPU,
         }
     )
     .add_local_dir(LOCAL / "code", str(REMOTE / "code"))
@@ -82,7 +86,7 @@ def prepare_weights():
 
 @app.function(
     image=image,
-    gpu="L4",
+    gpu=GPU,
     cpu=(4, 4),
     memory=(16384, 16384),
     timeout=2100,
@@ -107,7 +111,7 @@ async def measure(run_id: str, source: dict):
             {
                 "engine_image": IMAGE,
                 "platform": "temporary Modal Function",
-                "resources": {"gpu": "L4:1", "cpu_cores": 4, "memory_mib": 16384},
+                "resources": {"gpu": f"{GPU}:1", "cpu_cores": 4, "memory_mib": 16384},
                 "source": source,
             },
         )
@@ -142,7 +146,9 @@ async def main(output: str):
     print(f"Run ID: {run_id}; partial evidence volume: inference-book-chapter-02-evidence")
     target.mkdir(parents=True)
     (target / "adapter.json").write_text(
-        json.dumps({"run_id": run_id, "engine": ENGINE, "source": source}, indent=2) + "\n"
+        json.dumps(
+            {"run_id": run_id, "engine": ENGINE, "gpu": GPU, "source": source}, indent=2
+        ) + "\n"
     )
     from modal_calls import invoke
 

@@ -26,6 +26,38 @@ def saved_run():
     return manifest, rows, events
 
 
+def test_comparison_rejects_mixed_gpus_and_labels_selected_hardware(tmp_path, monkeypatch):
+    import compare as comparison
+    from matplotlib.figure import Figure
+
+    original_read = comparison.read_run
+    selected = {"vllm": "L4:1", "sglang": "L40S:1"}
+
+    def read_with_gpu(path):
+        manifest, rows = original_read(path)
+        # Test-only metadata variation; never written back to preserved evidence.
+        manifest["metadata"]["resources"]["gpu"] = selected[manifest["metadata"]["engine"]]
+        return manifest, rows
+
+    monkeypatch.setattr(comparison, "read_run", read_with_gpu)
+    other = CHAPTER / "artifacts/sglang-20260914T044837Z/run"
+    with pytest.raises(ValueError, match="Serving control differs: resources"):
+        comparison.compare(RUN, other, tmp_path / "mixed")
+    assert not (tmp_path / "mixed").exists()
+    selected["vllm"] = "L40S:1"
+    titles = []
+    original_title = Figure.suptitle
+
+    def capture_title(self, text, *args, **kwargs):
+        titles.append(text)
+        return original_title(self, text, *args, **kwargs)
+
+    monkeypatch.setattr(Figure, "suptitle", capture_title)
+    comparison.compare(RUN, other, tmp_path / "matched")
+    assert len(titles) == 1 and "L40S:1" in titles[0]
+    assert (tmp_path / "matched/engine-comparison.png").is_file()
+
+
 @pytest.mark.parametrize(
     "field,value",
     [
