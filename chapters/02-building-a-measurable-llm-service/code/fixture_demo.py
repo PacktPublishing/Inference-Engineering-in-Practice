@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import argparse
 import asyncio
-import hashlib
 import json
 import time
 from dataclasses import asdict
@@ -127,18 +126,6 @@ async def demonstrate(output: Path):
         ],
     }
     write_json(output / "demonstrations.json", report)
-    sources = output / "source"
-    sources.mkdir()
-    for path in Path(__file__).parent.glob("*.py"):
-        (sources / path.name).write_bytes(path.read_bytes())
-    write_json(
-        output / "SHA256SUMS.json",
-        {
-            str(p.relative_to(output)): hashlib.sha256(p.read_bytes()).hexdigest()
-            for p in sorted(output.rglob("*"))
-            if p.is_file()
-        },
-    )
     return report
 
 

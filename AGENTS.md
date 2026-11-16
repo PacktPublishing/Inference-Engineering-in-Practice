@@ -3,7 +3,7 @@
 This repository contains runnable companion code for *Inference Engineering in
 Practice*, by Dewang Sultania. The current checkout belongs outside iCloud:
 `~/Developer/llm-inference-engineering`. Read `DEVELOPMENT.md` for environment
-setup and historical run accounting. Author-only plans and manuscripts remain
+setup and validation. Author-only plans and manuscripts remain
 local and ignored by Git.
 
 These instructions adapt the principles in
@@ -21,7 +21,7 @@ These instructions adapt the principles in
    Design for clear teaching, correctness, testing and portability. Write new
    code or replace existing code when that produces a better example. Existing
    code is a reference, not a constraint; preserve historical evidence and its
-   executed source when replacing an implementation.
+   executed source locally when replacing an implementation.
 3. **Make surgical edits.** Every change should support the requested outcome.
    Preserve unrelated work and historical evidence unless its removal is part
    of the author's request.
@@ -87,7 +87,7 @@ lesson template into every section.
 Aim for roughly 6–10 purposeful conceptual diagrams per chapter, plus measured
 plots and short actual output excerpts where experiments are taught. Introduce
 the question, show the diagram/code/output, then explain what the reader can
-conclude. Preserve run IDs for excerpts; mark elisions and fixture data. Do not
+conclude. Preserve run IDs in private evidence notes; label fixture data in the chapter. Do not
 invent successful output or leave all results in repository logs. Plan model
 sizes across chapters according to `BOOK_PLAN.md`; avoid running every size on
 every engine merely for coverage. Chapter 2 introduces a small measured engine
@@ -111,8 +111,9 @@ the document before delivery. The author reviews and submits the final file.
   Keep engine image dependencies separate from the laptop environment.
 - Pin model revisions and tested dependency versions. Verify the chosen
   engine release's supported model, GPU, API and launch controls before running.
-- Keep raw outcomes, failures, timing boundaries, token-count provenance and
-  effective configuration. Qualify claims by workload, versions and hardware.
+- Keep full run evidence locally. Commit only small teaching datasets and excerpts.
+  Preserve failures, timing boundaries, token-count provenance and effective
+  configuration. Qualify claims by workload, versions and hardware.
   A stream chunk is not a token; a closed socket alone does not prove that
   engine work stopped. Never fabricate a result or treat an unrun engine as slow.
 - Curated artifacts need reproduction commands, metadata and clear limitations.
@@ -176,6 +177,8 @@ claiming completion. Required technical checks and claim evidence cannot be
 silently waived. Keep inputs, findings and decisions in ignored `author/reviews/`.
 Code changes during manuscript review return to code and evidence validation.
 The book plan defines the detailed review configuration and completion checks.
+When available, read ignored `author/REVIEW_PROCESS.md` for the author’s current
+review prompts and completion criteria. Keep that private material out of Git.
 
 ## Standard workflow
 
@@ -196,7 +199,7 @@ The book plan defines the detailed review configuration and completion checks.
 
 For code changes, use the narrowest useful checks first, then relevant project
 checks. Documentation-only changes need link and diff checks rather than new
-behavior tests. See `DEVELOPMENT.md` for the macOS environment repair procedure.
+behavior tests. See `DEVELOPMENT.md` for the shared setup.
 
 ```bash
 uv sync --locked

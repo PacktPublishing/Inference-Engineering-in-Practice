@@ -76,7 +76,7 @@ def _generate_answer(
     inputs: dict[str, torch.Tensor],
     *,
     max_new_tokens: int,
-) -> tuple[dict[str, Any], GenerationResult]:
+) -> dict[str, Any]:
     eos_token_id = tokenizer.eos_token_id
     uncached = generate_without_cache(
         model,
@@ -103,24 +103,21 @@ def _generate_answer(
     )
     new_tokens = cached.token_ids[:, input_ids.shape[-1] :]
 
-    return (
-        {
-            "max_new_tokens": max_new_tokens,
-            **_comparison(
-                uncached,
-                cached,
-                prompt_tokens=input_ids.shape[-1],
-            ),
-            "manual_cached_matches_generate": torch.equal(
-                cached.token_ids,
-                library_output,
-            ),
-            "generated_token_ids": new_tokens[0].tolist(),
-            "generated_text": tokenizer.decode(new_tokens[0], skip_special_tokens=True),
-            "final_cache": cache_summary(cached.past_key_values),
-        },
-        cached,
-    )
+    return {
+        "max_new_tokens": max_new_tokens,
+        **_comparison(
+            uncached,
+            cached,
+            prompt_tokens=input_ids.shape[-1],
+        ),
+        "manual_cached_matches_generate": torch.equal(
+            cached.token_ids,
+            library_output,
+        ),
+        "generated_token_ids": new_tokens[0].tolist(),
+        "generated_text": tokenizer.decode(new_tokens[0], skip_special_tokens=True),
+        "final_cache": cache_summary(cached.past_key_values),
+    }
 
 
 @torch.inference_mode()
@@ -210,7 +207,7 @@ def run_generation_experiment(
         torch.cuda.synchronize(device)
         torch.cuda.reset_peak_memory_stats(device)
 
-    answer, _ = _generate_answer(
+    answer = _generate_answer(
         tokenizer,
         model,
         input_ids,

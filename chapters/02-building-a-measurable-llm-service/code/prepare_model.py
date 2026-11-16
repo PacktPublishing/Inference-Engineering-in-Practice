@@ -22,7 +22,7 @@ def prompt_lengths(tokenizer, prompts: list[dict], limit: int) -> dict[str, int]
     return lengths
 
 
-def validate_preparation(config: dict, metadata: dict, *, require_prompt_hash: bool = True) -> None:
+def validate_preparation(config: dict, metadata: dict) -> None:
     """Reject a prepared directory whose recorded identity differs from the run."""
     if (
         metadata.get("model") != config["model"]
@@ -41,12 +41,10 @@ def validate_preparation(config: dict, metadata: dict, *, require_prompt_hash: b
         type(n) is not int or not 0 < n <= config["prompt_token_limit"] for n in counts.values()
     ):
         raise ValueError("Prepared prompt counts are invalid")
-    # New preparations bind the exact messages, not only their IDs and lengths.
+    # Bind the exact messages, not only their IDs and lengths.
     from records import content_hash
 
-    if (require_prompt_hash or "prompts_sha256" in metadata) and (
-        metadata.get("prompts_sha256") != content_hash(config["prompts"])
-    ):
+    if metadata.get("prompts_sha256") != content_hash(config["prompts"]):
         raise ValueError("Prepared prompt content differs from the workload")
 
 

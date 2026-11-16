@@ -83,6 +83,14 @@ async def serve_and_measure(
     name = engine_name(config)
     directory.mkdir(parents=True, exist_ok=False)
     metadata = dict(metadata or {})
+    # Small fingerprints identify the executed files without copying the source tree.
+    metadata["source"] = {
+        **metadata.get("source", {}),
+        "files": {
+            path.name: hashlib.sha256(path.read_bytes()).hexdigest()
+            for path in sorted(Path(__file__).parent.glob("*.py"))
+        },
+    }
     metadata.update(
         {
             "evidence_kind": "GPU measurement",
@@ -102,19 +110,6 @@ async def serve_and_measure(
         "url": "http://127.0.0.1:8000/health",
         "environment": environment,
         "generates_requests": False,
-    }
-    source_dir = directory / "source"
-    (source_dir / "code").mkdir(parents=True)
-    for path in Path(__file__).parent.glob("*.py"):
-        (source_dir / "code" / path.name).write_bytes(path.read_bytes())
-    write_json(source_dir / "experiment.json", config)
-    metadata["source"] = {
-        **metadata.get("source", {}),
-        "files": {
-            str(p.relative_to(source_dir)): hashlib.sha256(p.read_bytes()).hexdigest()
-            for p in sorted((source_dir / "code").glob("*.py"))
-        },
-        "config_sha256": hashlib.sha256((source_dir / "experiment.json").read_bytes()).hexdigest(),
     }
     outcome = {"status": "incomplete", "error": None}
     experiment_status = "not_started"
@@ -182,7 +177,12 @@ def main():
     parser.add_argument("--engine", choices=["vllm", "sglang"])
     parser.add_argument("--model-path", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--gpu", required=True, help="Declared GPU allocation, e.g. L40S:1")
+    parser.add_argument("--cpu-cores", type=int, required=True)
+    parser.add_argument("--memory-mib", type=int, required=True)
     args = parser.parse_args()
+    if not args.gpu.strip() or args.cpu_cores < 1 or args.memory_mib < 1:
+        parser.error("Declare a nonempty GPU allocation and positive CPU/memory limits")
     config = json.loads(args.config.read_text())
     if args.engine:
         config["engine"]["name"] = args.engine
@@ -191,7 +191,14 @@ def main():
             config,
             args.model_path,
             args.output,
-            {"platform": "user-provided Linux GPU host or container"},
+            {
+                "platform": "user-provided Linux GPU host or container",
+                "resources": {
+                    "gpu": args.gpu.strip(),
+                    "cpu_cores": args.cpu_cores,
+                    "memory_mib": args.memory_mib,
+                },
+            },
         )
     )
     print(json.dumps({"status": result["status"], "error": result.get("error")}, indent=2))

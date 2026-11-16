@@ -2,6 +2,7 @@
 
 import asyncio
 import copy
+import hashlib
 import json
 from pathlib import Path
 
@@ -10,23 +11,56 @@ import pytest
 from client import ChatClient
 from compare import read_run
 from evidence import validate_events, validate_run
+from experiment import run_experiment
 from fixture_demo import demonstrate
 from prepare_model import validate_preparation
 from records import RequestSpec, content_hash
 from service import capture_metrics
+from test_service import endpoint, fixture_config
 
 CHAPTER = Path(__file__).parents[1]
-RUN = CHAPTER / "artifacts/vllm-20260914T044208Z/run"
+@pytest.fixture(scope="module")
+def synthetic_runs(tmp_path_factory):
+    """Exercise the real client and schedule against a small local HTTP fixture."""
+    root = tmp_path_factory.mktemp("synthetic-evidence")
+    config = fixture_config()
+    config.update(repeats=2, concurrency=[1, 2], warmup_requests=2)
+    config["prompts"] = config["prompts"][:2]
+    for prompt in config["prompts"]:
+        prompt["expected_text"] = "café"
+    preparation = {
+        "model": config["model"], "revision": config["model_revision"],
+        "chat_template": "fixture", "chat_template_sha256": hashlib.sha256(b"fixture").hexdigest(),
+        "prompts_sha256": content_hash(config["prompts"]),
+        "prompt_tokens": {p["id"]: 10 for p in config["prompts"]},
+    }
+
+    async def exercise():
+        async with endpoint() as (url, _state):
+            for engine in ("vllm", "sglang"):
+                metadata = {
+                    "engine": engine, "evidence_kind": "SYNTHETIC HTTP FIXTURE",
+                    "resources": {"gpu": "synthetic"}, "topology": "local HTTP fixture",
+                    "execution_mode": "fixture", "model_preparation": preparation,
+                    "versions": {"fixture": "1"},
+                }
+                result = await run_experiment(url, config, root / engine, metadata)
+                assert result["status"] == "completed", result["error"]
+    asyncio.run(exercise())
+    return root
 
 
-def saved_run():
-    manifest = json.loads((RUN / "manifest.json").read_text())
-    rows = [json.loads(s) for s in (RUN / "requests.jsonl").read_text().splitlines()]
-    events = [json.loads(s) for s in (RUN / "events.jsonl").read_text().splitlines()]
+def saved_run(root):
+    directory = root / "vllm"
+    manifest = json.loads((directory / "manifest.json").read_text())
+    rows = [json.loads(s) for s in (directory / "requests.jsonl").read_text().splitlines()]
+    events = [json.loads(s) for s in (directory / "events.jsonl").read_text().splitlines()]
     return manifest, rows, events
 
 
-def test_comparison_rejects_mixed_gpus_and_labels_selected_hardware(tmp_path, monkeypatch):
+def test_comparison_rejects_mixed_gpus_and_labels_selected_hardware(
+    tmp_path, monkeypatch, synthetic_runs
+):
     import compare as comparison
     from matplotlib.figure import Figure
 
@@ -40,21 +74,24 @@ def test_comparison_rejects_mixed_gpus_and_labels_selected_hardware(tmp_path, mo
         return manifest, rows
 
     monkeypatch.setattr(comparison, "read_run", read_with_gpu)
-    other = CHAPTER / "artifacts/sglang-20260914T044837Z/run"
+    other = synthetic_runs / "sglang"
     with pytest.raises(ValueError, match="Serving control differs: resources"):
-        comparison.compare(RUN, other, tmp_path / "mixed")
+        comparison.compare(synthetic_runs / "vllm", other, tmp_path / "mixed")
     assert not (tmp_path / "mixed").exists()
     selected["vllm"] = "L40S:1"
     titles = []
+    ticks = []
     original_title = Figure.suptitle
 
     def capture_title(self, text, *args, **kwargs):
         titles.append(text)
+        ticks.extend(axis.get_xticks().tolist() for axis in self.axes)
         return original_title(self, text, *args, **kwargs)
 
     monkeypatch.setattr(Figure, "suptitle", capture_title)
-    comparison.compare(RUN, other, tmp_path / "matched")
-    assert len(titles) == 1 and "L40S:1" in titles[0]
+    comparison.compare(synthetic_runs / "vllm", other, tmp_path / "matched")
+    assert titles == ["Serving comparison · L40S:1"]
+    assert ticks == [[1, 2]] * 3
     assert (tmp_path / "matched/engine-comparison.png").is_file()
 
 
@@ -71,28 +108,28 @@ def test_comparison_rejects_mixed_gpus_and_labels_selected_hardware(tmp_path, mo
         ("first_content_s", 999),
     ],
 )
-def test_event_disagreement_is_rejected(field, value):
-    _manifest, rows, events = saved_run()
+def test_event_disagreement_is_rejected(field, value, synthetic_runs):
+    _manifest, rows, events = saved_run(synthetic_runs)
     row = next(r for r in rows if r["phase"] == "measure")
     row[field] = value
     with pytest.raises(ValueError):
         validate_events(rows, events)
 
 
-def test_ordinary_response_and_chronology_are_checked():
-    _, rows, events = saved_run()
+def test_ordinary_response_and_chronology_are_checked(synthetic_runs):
+    _, rows, events = saved_run(synthetic_runs)
     rows[0]["text"] = "tampered ordinary response"
     with pytest.raises(ValueError, match="text"):
         validate_events(rows, events)
-    _, rows, events = saved_run()
+    _, rows, events = saved_run(synthetic_runs)
     events[1]["elapsed_s"] = float("nan")
     with pytest.raises(ValueError, match="chronology"):
         validate_events(rows, events)
 
 
 @pytest.mark.parametrize("mutation", ["condition", "messages", "objective", "schedule", "hash"])
-def test_run_rejects_same_count_but_wrong_evidence(mutation):
-    manifest, rows, events = saved_run()
+def test_run_rejects_same_count_but_wrong_evidence(mutation, synthetic_runs):
+    manifest, rows, events = saved_run(synthetic_runs)
     validate_run(manifest, rows, events)
     if mutation == "condition":
         for row in rows:
@@ -110,17 +147,17 @@ def test_run_rejects_same_count_but_wrong_evidence(mutation):
         validate_run(manifest, rows, events)
 
 
-def test_saved_comparison_inputs_pass_stronger_checks():
-    for name in ("vllm-20260914T044208Z", "sglang-20260914T044837Z"):
-        manifest, rows = read_run(CHAPTER / "artifacts" / name / "run")
-        assert manifest["generation_requests"] == len(rows) == 291
+def test_synthetic_comparison_inputs_pass_stronger_checks(synthetic_runs):
+    for name in ("vllm", "sglang"):
+        manifest, rows = read_run(synthetic_runs / name)
+        assert manifest["generation_requests"] == len(rows) == 19
 
 
 @pytest.mark.parametrize(
     "mutation", ["model", "revision", "prompt_ids", "prompt_content", "template"]
 )
-def test_prepared_model_must_match_run(mutation):
-    manifest, _, _ = saved_run()
+def test_prepared_model_must_match_run(mutation, synthetic_runs):
+    manifest, _, _ = saved_run(synthetic_runs)
     config = manifest["config"]
     prep = copy.deepcopy(manifest["metadata"]["model_preparation"])
     prep["prompts_sha256"] = content_hash(config["prompts"])
@@ -221,12 +258,14 @@ def test_saved_fixture_demonstrations(tmp_path):
     assert correct["requests_per_s"] < omitted["requests_per_s"]
 
 
-def test_finished_workload_does_not_hide_failed_final_observation(tmp_path, monkeypatch):
+def test_finished_workload_does_not_hide_failed_final_observation(
+    tmp_path, monkeypatch, synthetic_runs
+):
     from contextlib import asynccontextmanager
 
     import service
 
-    manifest, _, _ = saved_run()
+    manifest, _, _ = saved_run(synthetic_runs)
     config = manifest["config"]
     prepared = manifest["metadata"]["model_preparation"]
     prepared["prompts_sha256"] = content_hash(config["prompts"])
@@ -273,16 +312,15 @@ def test_finished_workload_does_not_hide_failed_final_observation(tmp_path, monk
     assert result["experiment_status"] == "completed"
     assert state["stopped"]
     assert "500" in result["error"]
-    assert (tmp_path / "run/source/code/client.py").exists()
 
 
-def test_existing_listener_cannot_supply_service_readiness(tmp_path, monkeypatch):
+def test_existing_listener_cannot_supply_service_readiness(tmp_path, monkeypatch, synthetic_runs):
     import socket
     from functools import partial
 
     import service
 
-    manifest, _, _ = saved_run()
+    manifest, _, _ = saved_run(synthetic_runs)
     with socket.socket() as existing:
         existing.bind(("127.0.0.1", 0))
         existing.listen()
@@ -376,3 +414,44 @@ def test_cancel_records_combined_content_and_finish():
         )
 
     asyncio.run(exercise())
+
+
+def test_linux_cli_metadata_supports_full_comparison(tmp_path, monkeypatch, synthetic_runs):
+    """Exercise the documented CLI boundary without starting an engine or renting compute."""
+    import shutil
+    import sys
+
+    import service
+    from compare import compare
+
+    config_path = tmp_path / "config.json"
+    manifest, _, _ = saved_run(synthetic_runs)
+    config_path.write_text(json.dumps(manifest["config"]))
+
+    async def measured_fixture(config, model_path, directory, metadata):
+        engine = config["engine"]["name"]
+        shutil.copytree(synthetic_runs / engine, directory / "run")
+        path = directory / "run/manifest.json"
+        saved = json.loads(path.read_text())
+        saved["metadata"].update(metadata)
+        path.write_text(json.dumps(saved))
+        return {"status": "completed", "error": None}
+
+    monkeypatch.setattr(service, "serve_and_measure", measured_fixture)
+    for engine in ("vllm", "sglang"):
+        monkeypatch.setattr(
+            sys,
+            "argv",
+            [
+                "service.py", "--config", str(config_path), "--engine", engine,
+                "--model-path", str(tmp_path / "model"), "--output", str(tmp_path / engine),
+                "--gpu", "L40S:1", "--cpu-cores", "4", "--memory-mib", "16384",
+            ],
+        )
+        service.main()
+    results = compare(tmp_path / "vllm/run", tmp_path / "sglang/run", tmp_path / "comparison")
+    assert {r["engine"] for r in results} == {"vllm", "sglang"}
+    saved, _ = read_run(tmp_path / "vllm/run")
+    assert saved["metadata"]["resources"] == {
+        "gpu": "L40S:1", "cpu_cores": 4, "memory_mib": 16384,
+    }

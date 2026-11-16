@@ -1,9 +1,0 @@
-{
-  "run_id": "sglang-20261116T070238Z",
-  "observation": "Provider app and container queries after local entrypoint completed",
-  "app_state": "stopped",
-  "stopped_at": "2026-11-15T23:05:32-08:00",
-  "tasks": 0,
-  "live_containers": 0,
-  "limits": "Aggregate provider state; does not establish per-request cancellation reclamation or billed usage"
-}

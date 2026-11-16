@@ -1,53 +1,109 @@
 # Chapter 2: Building a Measurable LLM Service
 
-This lab follows a request across the API contract into an inference engine,
-then measures what the client actually receives. The portable implementation
-and local HTTP checks pass. Both current-source L40S engine runs completed all
-144 measured requests successfully: see the
-[matched comparison](artifacts/comparison-20261116/README.md).
-The [September L4 comparison](artifacts/comparison-20260914/README.md) remains
-separate historical evidence. Author manuscripts and plans stay local and ignored.
+Follow a request through an HTTP API, distinguish stream events from model
+tokens, and measure latency and throughput without hiding failed requests.
+The client and packaged API server share one host over loopback HTTP. The lab
+has one engine replica and no serving framework or public endpoint.
 
-The three responsibilities have different owners:
-
-```mermaid
-flowchart LR
-    C[HTTP client] -->|chat request| A[API server: validate and stream]
-    A -->|generation request| E[Engine: schedule and generate]
-    E -->|generated output| A
-    A -->|SSE response| C
-    F[Serving framework: route and manage replicas] -.->|conceptual control; absent from this lab| A
-```
-
-The lab uses each engine's packaged API server in a temporary Modal Function.
-The HTTP client runs in that same container. There is no public
-endpoint or serving-framework deployment. Measurements include the frontend
-and loopback HTTP, but exclude Internet and laptop-to-cloud latency. Comparing
-the two engines means comparing complete serving setups under this
-contract, with frontend differences acknowledged.
-
-## Run the local checks
+## Start without a GPU
 
 From the repository root:
 
 ```bash
 uv sync --locked
 uv run pytest chapters/02-building-a-measurable-llm-service/tests -q
+uv run python chapters/02-building-a-measurable-llm-service/code/fixture_demo.py \
+  --output artifacts/tmp/chapter02-fixtures
+uv run python chapters/02-building-a-measurable-llm-service/code/reproduce.py \
+  chapters/02-building-a-measurable-llm-service/examples/measurements.csv \
+  --output artifacts/tmp/chapter02-comparison
 ```
 
-The fixtures serve real loopback HTTP. They exercise fragmented UTF-8/SSE,
-missing usage, malformed responses, disconnects, deadlines, cancellation,
-worker limits, partial artifacts and hand-calculated throughput. They generate
-synthetic text and provide no evidence about model or GPU performance.
+Choose fresh output directories. The fixture report shows how counting events
+as tokens or removing failures produces misleading rates. Its text and usage
+are invented; its elapsed times are not model performance.
 
-## Measure an already running endpoint
+The [small measured dataset](examples/README.md) contains 288 measured request
+rows, a selected stream, and the book's comparison plot. `reproduce.py`
+recalculates the CSV summaries and plot. It does not validate omitted raw event
+traces or the complete execution. Full run logs are not included in Git.
 
-Explain the question before changing the workload: do overlapping requests
-change completion rate or delivery latency for this fixed set of short tasks?
-[The configuration](experiment.json) contains 24 prompts, three paired repeats
-at concurrency 1 and 4, and a full 24-request warmup pass before each condition. The
-full schedule contains 291 generation requests, bounded by the declared cap of 300.
-No failed request is retried automatically.
+## Code map
+
+| Program | Purpose |
+| --- | --- |
+| [client.py](code/client.py), [records.py](code/records.py) | Parse ordinary/SSE responses; retain timing, usage, partial text and failure outcomes. |
+| [experiment.py](code/experiment.py) | Run smoke checks, full-workload warmup, bounded workers and a cancellation probe. |
+| [analyze.py](code/analyze.py), [evidence.py](code/evidence.py) | Check new request/event records and calculate rates and distributions. |
+| [compare.py](code/compare.py), [reproduce.py](code/reproduce.py) | Compare complete new runs, or recalculate the compact book dataset. |
+| [fixture_demo.py](code/fixture_demo.py) | Demonstrate two measurement errors without a model. |
+| [prepare_model.py](code/prepare_model.py), [engines.py](code/engines.py) | Prepare pinned model files and construct the two engine launch commands. |
+| [service.py](code/service.py), [server_process.py](code/server_process.py) | Start, check, measure and stop a local server with bounded waits. |
+| [modal_app.py](code/modal_app.py), [modal_calls.py](code/modal_calls.py) | Optional compute, transfer and bounded remote-call adapter. |
+
+## Run on a Linux GPU host
+
+Use one NVIDIA L40S to match the saved example, four CPU cores, 16 GiB host
+memory, and a compatible NVIDIA driver/container runtime. The selected model is
+Qwen/Qwen2.5-1.5B-Instruct, BF16, revision
+`989aa7980e4cf806f80c7fef2b1adb7bc71aa306`.
+
+Use a separate engine environment. The tested linux/amd64 image references are:
+
+- vLLM 0.29.0: `vllm/vllm-openai@sha256:082ca6f035279109041ffd3fe0695cb568b29bc580b35c4f297a66a08b216c1b`
+- SGLang 0.5.19: `lmsysorg/sglang@sha256:37bbbd3444732a464bbc68dee4fb0164e0ce9e18e2f027f3fc967f1152d3c262`
+
+For example, start an interactive vLLM container from the repository root:
+
+```bash
+docker run --rm -it --gpus '"device=0"' --ipc=host \
+  --cpus=4 --memory=16g -v "$PWD:/work" -w /work --entrypoint /bin/bash \
+  vllm/vllm-openai@sha256:082ca6f035279109041ffd3fe0695cb568b29bc580b35c4f297a66a08b216c1b
+```
+
+Inside that environment, pin the client dependency as in the measured runs,
+then prepare the model and run the service:
+
+```bash
+python3 -m pip install --no-deps httpx==0.28.1
+python3 chapters/02-building-a-measurable-llm-service/code/prepare_model.py \
+  chapters/02-building-a-measurable-llm-service/experiment.json \
+  artifacts/tmp/chapter02-model
+python3 chapters/02-building-a-measurable-llm-service/code/service.py \
+  --config chapters/02-building-a-measurable-llm-service/experiment.json \
+  --model-path artifacts/tmp/chapter02-model \
+  --gpu L40S:1 --cpu-cores 4 --memory-mib 16384 \
+  --output artifacts/tmp/chapter02-vllm
+```
+
+For SGLang, use its image and add `--engine sglang` to the service command.
+Prepare the model in that environment too; tokenizer and
+runtime dependencies are part of the serving setup. Use a different result
+directory. The same platform-neutral service code handles both engines.
+
+The resource arguments declare the allocation for comparison; set them to your
+actual host/container limits. They do not provision or enforce resources. The
+service also saves observed `nvidia-smi` output and small source-file hashes.
+Check the hardware observation against the declaration before comparing runs.
+
+The [configuration](experiment.json) supplies 24 prompts, concurrency 1 and 4,
+three alternating repeats, and 24 warmup requests before each condition. It
+schedules 291 requests: 144 measured, 144 warmup, two smoke checks and one probe.
+The launch controls use context 1,024, scheduler limit 64, memory fraction 0.75,
+seed 17 and disabled prefix reuse. Normal engine compilation remains enabled.
+Requests use temperature 0 and at most 64 output tokens; the probe permits 512.
+
+Reserve loopback port 8000 for the service. Startup waits up to 900 seconds for
+release-specific health, followed by ordinary and streaming smoke checks.
+Requests have a 30-second total deadline and a 10-second idle timeout. The run
+has a 900-second deadline including 15 seconds for saving records. The service
+has an overall 1,920-second bound and a 10-second cooperative shutdown wait
+before escalation. Failed runs retain partial records. There are no hidden
+measurement retries.
+
+## Use an existing endpoint or inspect new results
+
+An already running compatible endpoint can use the client directly:
 
 ```bash
 uv run python chapters/02-building-a-measurable-llm-service/code/experiment.py \
@@ -56,190 +112,47 @@ uv run python chapters/02-building-a-measurable-llm-service/code/experiment.py \
   --output artifacts/tmp/chapter02-endpoint
 ```
 
-Choose a fresh output directory. The endpoint must serve the configured model
-and pass both streaming and ordinary-response smoke checks with token usage.
-The CPU preparation step in the Modal workflow also checks formatted prompt
-lengths against the pinned tokenizer. When supplying your own endpoint, record
-its actual model revision, tokenizer, launch controls and hardware alongside
-the result; a model-name response alone does not verify these.
+Record that endpoint's hardware, model revision, tokenizer and effective launch
+controls separately. The model name returned by HTTP is not sufficient.
 
-## Run the service on your own GPU host
-
-The engine image or host environment must contain the selected vLLM release.
-First run `prepare_model.py` with the configuration and a model directory; it
-downloads the exact revision and validates formatted token lengths. Then use:
-
-```bash
-python chapters/02-building-a-measurable-llm-service/code/service.py \
-  --config chapters/02-building-a-measurable-llm-service/experiment.json \
-  --model-path /path/to/prepared-model \
-  --output artifacts/tmp/chapter02-local-service
-```
-
-This starts the engine/API server, waits for readiness, measures, saves evidence
-and tears down the process. It has no Modal dependency. Alternatively, launch
-the engine yourself and use the endpoint-only client above.
-
-Give this workflow exclusive use of port 8000. It checks that the loopback port
-is available before launch, so an existing server cannot supply its readiness
-response. Use an isolated container or reserve the port on your host; the check
-does not coordinate other processes that try to launch at the same time.
-
-## Run the same workflow through Modal
-
-[The run specification](RUN_SPEC.md) declares the model, image, controls and
-measurement boundary. Modal supplies compute, cached model files and artifact
-transfer; it calls the same `serve_and_measure` function as the standalone
-command. Importing the wrapper or running tests does not start remote compute.
-The command below includes CPU preparation and a GPU measurement:
-
-```bash
-uv run modal run chapters/02-building-a-measurable-llm-service/code/modal_app.py \
-  --output artifacts/tmp/chapter02-vllm-standard
-```
-
-The wrapper downloads the pinned model on CPU, checks prompt lengths, starts
-one vLLM process on one L4, verifies readiness and disabled prefix caching,
-runs the fixed workload, saves records/logs and stops the process. A failed
-preparation does not proceed to GPU execution. Preparation and measurement
-have separate deadlines, with no application retries. Remote interruption may
-still occur; inspect Modal's run state and billing before considering another
-attempt. Durable evidence is stored under the printed run ID in the
-`inference-book-chapter-02-evidence` Volume and returned locally on normal exit.
-A hard container termination can leave only records persisted before it ended.
-
-## Read the evidence
-
-For the Modal bundle, the terminal request records live in its `run/` directory:
+For a new service run, analyze its `run/` directory:
 
 ```bash
 uv run python chapters/02-building-a-measurable-llm-service/code/analyze.py \
-  artifacts/tmp/chapter02-vllm-standard/run \
-  --output artifacts/tmp/chapter02-analysis
+  artifacts/tmp/chapter02-vllm/run --output artifacts/tmp/chapter02-analysis
+uv run python chapters/02-building-a-measurable-llm-service/code/compare.py \
+  artifacts/tmp/chapter02-vllm/run artifacts/tmp/chapter02-sglang/run \
+  --output artifacts/tmp/chapter02-new-comparison
 ```
 
-For a direct endpoint run, pass the output directory itself. Analysis checks
-request IDs and reconstructs stream text/timing from events before producing
-`summary.csv` and `measurements.png`. Read per-repeat sample counts, failure
-fractions and token-count coverage alongside speed. `completed` means the
-schedule finished; it does not imply that every measured request succeeded.
+For an endpoint-only run, pass its output directory directly to `analyze.py`.
+Comparison requires the preparation/deployment metadata saved by `service.py`.
+It checks workload, hardware declarations, templates, prompt counts and event
+records. Completion means the schedule finished; inspect failure fractions,
+usage coverage and output lengths alongside speed.
 
-Completion latency ends after the client accepts the terminal protocol marker
-and closes the response context. It includes that local cleanup; it is not
-exactly the arrival time of `[DONE]`. The terminal event records this boundary.
+First-content time ends at nonempty text, not necessarily one model token.
+Completion includes client response cleanup. Token throughput uses server usage
+and the full condition window, including failures. The five-second objective
+combines completion with exact uppercase or nonempty explanation checks; it is
+not a semantic quality evaluation. A closed client socket does not establish
+engine cancellation. The client is intended for these local APIs; its payload
+limits do not bound every possible unfinished HTTP/SSE framing buffer.
 
-First-content latency starts at client submission and stops at the first
-nonempty text event. Chunks are not tokens. Counted output throughput includes
-only successful responses with server-reported usage and retains failed-request
-time in its denominator. The optional output interval is a client-side
-approximation, not engine inter-token latency. The five-second completion
-threshold and output checks are teaching objectives, not a quality benchmark or
-production SLO. A cancelled client socket does not establish engine cleanup;
-the cancellation probe remains unverified without correlated server evidence.
+## Optional Modal execution
 
-See [artifact conventions](artifacts/README.md) and the
-[validated current-source comparison](artifacts/comparison-20261116/README.md),
-including repeat variation, actual output lengths and startup differences.
-Larger models and deeper mechanism comparisons belong to later chapters.
-
-
-## Compare saved runs
-
-`compare.py` checks shared model, workload, hardware, execution mode, template
-and observed prompt-count controls before generating a comparison CSV and
-plot. Provide the two bundles' `run/` directories and a fresh output directory.
-Read actual output lengths and per-repeat variation alongside token throughput.
-Each engine includes its own API frontend and dependency versions.
-
-The first short-warmup comparison exposed a slower first SGLang concurrent
-repeat. Four uppercase requests were not representative of the explanation
-tasks later measured. The current procedure warms up with the full workload;
-this improves the experimental design without silently discarding observations
-or claiming that warmup alone explains every timing difference.
-
-Shutdown first signals the server parent, allowing it to drain its workers.
-The process group is terminated forcibly only after the parent exits or its
-shutdown deadline expires. A local subprocess test verifies cooperative child
-cleanup. Remote logs and stopped-app state remain part of the evidence.
-
-
-## Readiness is different from model metadata
-
-In the selected SGLang release, `/v1/models` can answer while internal warmup
-is still running. A real attempt hit the client's idle timeout at that boundary.
-The service now waits on `/health`, with health-triggered generation disabled
-for SGLang, and only then checks the Chat Completions contract. This preserves
-the declared measured-request timeouts and avoids hidden generation in polling.
-
-```mermaid
-flowchart LR
-    A[API accepts HTTP] --> B[Model metadata available]
-    B --> C[Engine finishes internal warmup]
-    C --> D[Health reports ready]
-    D --> E[Contract smoke checks]
-    E --> F[Full-workload warmup]
-    F --> G[Measured requests]
-```
-
-This ordering describes the observed SGLang startup case. Different servers
-expose different readiness semantics; verify the chosen release rather than
-assuming any successful HTTP response means inference is ready.
-
-
-## Run the two misleading-result demonstrations
-
-These examples need no GPU, model, credentials, or network. An in-process HTTP
-fixture returns invented text and token usage through the real client. The
-recorded elapsed times come from local execution and are not model performance.
+Modal supplies compute and file transfer. It calls the same local service
+function. These commands rent GPUs and require a configured Modal account:
 
 ```bash
-uv run python chapters/02-building-a-measurable-llm-service/code/fixture_demo.py \
-  --output artifacts/tmp/chapter02-fixtures
+CHAPTER_GPU=L40S uv run modal run chapters/02-building-a-measurable-llm-service/code/modal_app.py \
+  --output artifacts/tmp/chapter02-vllm-modal
+CHAPTER_GPU=L40S CHAPTER_ENGINE=sglang uv run modal run chapters/02-building-a-measurable-llm-service/code/modal_app.py \
+  --output artifacts/tmp/chapter02-sglang-modal
 ```
 
-Read `demonstrations.json`. The first case returns `hello` in one content event;
-the second returns the same text in five. Both report one fixture-defined token.
-Treating content events as tokens multiplies the second case's rate by five.
-The failure case retains one successful request and one deadline failure.
-Compare its complete summary with the explicitly wrong summary that removes the
-failed request. The wrong summary loses both a failure and time in the denominator.
-Each case saves request records, protocol events, and clearly labelled metadata.
-
-## Evidence checks added after the historical runs
-
-Analysis now cross-checks usage, ordinary and streaming text, first and last
-content times, finish reasons, terminal elapsed time, and output objectives.
-Comparison additionally checks every prompt's phase, repeat, concurrency,
-submitted controls, contract checks, warmups, and schedule identity.
-Use `analyze.py --output` to write derived files away from preserved raw evidence.
-The exact-text objective is case-sensitive after trimming surrounding whitespace.
-All historical measured uppercase responses also pass this corrected check.
-
-New service runs reject mismatched prepared model identity, template hashes and
-workload hashes before engine launch. Both metric snapshots require successful
-HTTP status and the engine's running/waiting request gauges. Failed observations
-are saved separately. `outcome.json` distinguishes overall completion from
-`experiment_status`, so a finished workload cannot hide a failed final observation.
-Old bundles remain unchanged and retain their exact executed source.
-
-Saved [synthetic demonstration evidence](artifacts/fixtures-20261115/README.md)
-can be inspected without rerunning the fixtures.
-
-To verify a complete GPU bundle without changing its original files:
-
-```bash
-uv run python chapters/02-building-a-measurable-llm-service/code/verify_bundle.py \
-  chapters/02-building-a-measurable-llm-service/artifacts/vllm-20260914T044208Z \
-  --output artifacts/tmp/chapter02-verified-vllm
-```
-
-This checks listed file hashes, executed source, model preparation, protocol
-records, workload membership, output checks and required metric gauges. It
-regenerates summaries and plots in the separate output directory. It does not
-query live cloud state or establish engine cancellation from a closed socket.
-
-
-The client is designed for the selected local engine APIs. Its streaming size
-guards limit dispatched data payloads and retained events, not all incoming
-comments/framing or HTTPX's unfinished line buffer. Request deadlines bound the
-wait. This example is not a general client for untrusted streaming endpoints.
+The adapter defaults to L4 unless `CHAPTER_GPU` is set. Use matching hardware
+for comparisons. It bounds submission and waiting (1,800 seconds for preparation,
+3,600 for measurement), and attempts cancellation on failure. Inspect remote
+app state after interruption: cancellation acknowledgement alone does not prove
+cleanup. Image building before the entrypoint is outside those caller deadlines.

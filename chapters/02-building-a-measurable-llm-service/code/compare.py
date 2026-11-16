@@ -20,10 +20,7 @@ def read_run(directory: Path):
     if manifest["status"] != "completed":
         raise ValueError("Do not silently compare an incomplete run as a completed workload")
     validate_run(manifest, rows, events)
-    # Legacy bundles predate prompt hashes; submitted messages are checked above.
-    validate_preparation(
-        manifest["config"], manifest["metadata"]["model_preparation"], require_prompt_hash=False
-    )
+    validate_preparation(manifest["config"], manifest["metadata"]["model_preparation"])
     if manifest["generation_requests"] != len(rows):
         raise ValueError("Manifest and terminal record counts disagree")
     return manifest, rows
@@ -121,6 +118,7 @@ def plot(results, output, *, gpu):
 
     figure, axes = plt.subplots(1, 3, figsize=(12, 4))
     engines = sorted({r["engine"] for r in results})
+    concurrency = sorted({r["concurrency"] for r in results})
     for axis, metric, title, scale in zip(
         axes,
         ["first_content_s_median", "completion_s_median", "counted_output_tokens_per_s"],
@@ -139,11 +137,9 @@ def plot(results, output, *, gpu):
                     alpha=0.75,
                     label=engine if repeat == 0 else None,
                 )
-        axis.set(xlabel="Client concurrency", ylabel=title, xticks=[1, 4])
+        axis.set(xlabel="Client concurrency", ylabel=title, xticks=concurrency)
         axis.legend()
-    figure.suptitle(
-        f"Qwen 1.5B · {gpu} · loopback API · 3 repeats × 24 requests per condition"
-    )
+    figure.suptitle(f"Serving comparison · {gpu}")
     figure.tight_layout()
     figure.savefig(output / "engine-comparison.png", dpi=180)
     plt.close(figure)
