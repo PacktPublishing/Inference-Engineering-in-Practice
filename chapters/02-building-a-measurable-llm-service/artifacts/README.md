@@ -1,10 +1,12 @@
 # Evidence bundles
 
-Start with the [validated matched comparison](comparison-20260914/README.md).
-The final [vLLM](vllm-20260914T044208Z/README.md) and
-[SGLang](sglang-20260914T044837Z/README.md) bundles each contain 144 successful
+Start with the [current-source L40S comparison](comparison-20261116/README.md).
+The current [vLLM](vllm-20261116T065829Z/README.md) and
+[SGLang](sglang-20261116T070238Z/README.md) bundles each contain 144 successful
 measurements, full-workload warmup, three repeats and exact executed source.
 All Modal apps were verified stopped with zero tasks.
+The [September L4 comparison](comparison-20260914/README.md) remains separate
+historical evidence. Never pool its measurements with the L40S pair.
 
 Earlier runs remain diagnostic evidence: the
 [eager vLLM run](vllm-20260914T041032Z/README.md) includes a documented prompt-count
@@ -29,7 +31,8 @@ completed/incomplete status, and a short account of what the run can establish.
 - `run/requests.jsonl`: every started request's terminal outcome, including
   smoke, warmup, failures and the deliberate cancellation probe.
 - `run/events.jsonl`: submitted payloads, protocol events and terminal status.
-- `run/summary.csv`, `run/measurements.png`: locally regenerated analysis.
+- `summary.csv`, `measurements.png`: locally regenerated analysis in current
+  bundles; historical bundles keep these under `run/`.
 
 Do not merge warmup or probes into measurements. Preserve incomplete bundles
 and missing token counts. Report individual repeats and actual output lengths;

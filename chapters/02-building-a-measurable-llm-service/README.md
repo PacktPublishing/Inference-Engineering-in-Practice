@@ -2,9 +2,11 @@
 
 This lab follows a request across the API contract into an inference engine,
 then measures what the client actually receives. The portable implementation
-and local HTTP checks pass. Both final engine runs completed all 144 measured
-requests successfully: see the [matched comparison](artifacts/comparison-20260914/README.md).
-Chapter manuscript prose and final conceptual figures are next.
+and local HTTP checks pass. Both current-source L40S engine runs completed all
+144 measured requests successfully: see the
+[matched comparison](artifacts/comparison-20261116/README.md).
+The [September L4 comparison](artifacts/comparison-20260914/README.md) remains
+separate historical evidence. Author manuscripts and plans stay local and ignored.
 
 The three responsibilities have different owners:
 
@@ -17,11 +19,11 @@ flowchart LR
     F[Serving framework: route and manage replicas] -.->|conceptual control; absent from this lab| A
 ```
 
-The initial lab uses vLLM's packaged API server and engine in a temporary Modal
-Function. The HTTP client runs in that same container. There is no public
+The lab uses each engine's packaged API server in a temporary Modal Function.
+The HTTP client runs in that same container. There is no public
 endpoint or serving-framework deployment. Measurements include the frontend
 and loopback HTTP, but exclude Internet and laptop-to-cloud latency. Comparing
-a second engine later means comparing complete serving setups under this
+the two engines means comparing complete serving setups under this
 contract, with frontend differences acknowledged.
 
 ## Run the local checks
@@ -136,7 +138,7 @@ production SLO. A cancelled client socket does not establish engine cleanup;
 the cancellation probe remains unverified without correlated server evidence.
 
 See [artifact conventions](artifacts/README.md) and the
-[validated vLLM/SGLang comparison](artifacts/comparison-20260914/README.md),
+[validated current-source comparison](artifacts/comparison-20261116/README.md),
 including repeat variation, actual output lengths and startup differences.
 Larger models and deeper mechanism comparisons belong to later chapters.
 

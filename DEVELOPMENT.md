@@ -28,11 +28,11 @@ Authentication itself does not run GPU code.
 
 Chapters 1 and 2 now have implemented code. The former Chapter 2 implementation,
 shared serving benchmarks, simulations, model profiles, and GPU results were
-removed on 13 September 2026. Rebuild Chapter 2 from its revised service and
-measurement story, adding code only as each example needs it. The run log below
-is historical accounting; its approvals do not authorize new runs. The detailed
-Chapter 2 plan is now in the ignored `author/Chapter_02_Plan.md`; implementation
-and the first validated vLLM evidence is available in the Chapter 2 artifacts.
+removed on 13 September 2026. Chapter 2 now implements the revised service and
+measurement story. The run log below preserves historical accounting; its
+approvals do not authorize new runs. The detailed plan remains in ignored
+`author/Chapter_02_Plan.md`. The current-source November L40S pair and historical
+September L4 pair are separate comparisons in the Chapter 2 artifacts.
 
 ## Modal is a replaceable GPU runner
 
@@ -252,3 +252,32 @@ contains per-repeat results, reproducible analysis, controls and limitations.
 The failed readiness attempt remains separate diagnostic evidence. Engine
 shutdown warnings are retained; stopped app state does not establish per-request
 resource reclamation for the client cancellation probes.
+
+
+## Chapter 2 current-source verification — 16 November 2026 UTC
+
+The author requested implementation, remote validation and a PR. The code review
+loop converged with two clean rounds (eleven and twelve). The full CPU suite
+passed 83 tests and Ruff passed. Reviewed source commit:
+`2f4a4972bf7ab866fdf7f56ae09bc3f530911b37`.
+
+| Run | Hardware | Outcome |
+| --- | --- | --- |
+| vllm-20261116T061927Z | L4 requested | CPU preparation completed; GPU call stayed queued; explicitly stopped with no measurements. |
+| vllm-20261116T064504Z | L4 requested | CPU preparation completed; GPU call stayed queued; explicitly stopped; bounded adapter retained failure/cancellation records. |
+| vllm-20261116T065829Z | One L40S | Completed: 144/144 measured successes, 291 terminal records. |
+| sglang-20261116T070238Z | One L40S | Completed: 144/144 measured successes, 291 terminal records. |
+
+The L40S pair keeps the pinned model/images, BF16, four CPU cores, 16 GiB RAM,
+full warmup, workload and deadlines. Both actual device records identify L40S.
+Both metrics snapshots returned HTTP 200 in each run. Current executed-source
+hashes, events, strict outputs, prompt counts and schedules passed validation.
+All four apps were observed stopped with zero tasks and no live containers.
+Actual billed spend was unavailable; experiment duration is not billing duration.
+
+The adapter now bounds submission and result waiting, including scheduling,
+and requests bounded cancellation on failure. Cleanup acknowledgment remains
+separate from observed stopped state. Model/evidence volumes remain available.
+The [current comparison](chapters/02-building-a-measurable-llm-service/artifacts/comparison-20261116/README.md)
+is separate from historical L4 evidence. Local provisioning IDs and unnecessary
+console logs remain ignored. Per-request engine cancellation remains unverified.

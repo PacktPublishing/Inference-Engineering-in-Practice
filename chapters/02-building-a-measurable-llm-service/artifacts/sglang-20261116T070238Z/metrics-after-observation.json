@@ -1,0 +1,13 @@
+{
+  "phase": "after",
+  "status": "completed",
+  "http_status": 200,
+  "required_gauges": {
+    "sglang:num_running_reqs": [
+      0.0
+    ],
+    "sglang:num_queue_reqs": [
+      0.0
+    ]
+  }
+}

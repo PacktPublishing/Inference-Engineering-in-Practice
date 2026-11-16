@@ -1,7 +1,8 @@
 # Representative vLLM service run
 
-Updated 13 September 2026. Choose settings for representative teaching and
-transferability. Record resource use and observed charges when available.
+Updated 16 November 2026 UTC. The default configuration uses L4; the current-source
+pair uses the explicit L40S alternative below. Choose settings for representative
+teaching and transferability. Record resource use and observed charges when available.
 
 ## Purpose and execution boundary
 
