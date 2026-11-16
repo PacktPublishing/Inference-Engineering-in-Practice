@@ -37,10 +37,6 @@ walkthrough, not a production serving benchmark.
 | [model_config.py](code/model_config.py) | Which immutable model and package versions were used? |
 | [modal_app.py](code/modal_app.py) | How can the recorded experiment be repeated on a GPU? |
 
-Attention and sampling are explained visually and through the model/library
-interfaces. The standalone implementations have been removed from the Chapter 1
-reader path and code. Generation uses the existing plain greedy selector.
-
 ## Local verification
 
 From the repository root, install the locked Python 3.12 environment:
@@ -55,21 +51,28 @@ The tests exercise a tiny random model created locally, masks and cache state,
 matching generation settings, recorded cache arithmetic, and reconstructed timing
 totals. They need no model downloads, credentials, or GPU.
 
-## Optional GPU reproduction
+## Optional model execution
 
-The chapter can be read using the committed evidence. Loading the real model
-requires its weights; the optional Modal command also incurs cloud usage.
-Review the exact run and costs using [DEVELOPMENT.md](../../DEVELOPMENT.md).
+On a CUDA host with the locked PyTorch/Transformers environment and a compatible
+NVIDIA driver, inspect one prompt locally:
+
+```bash
+uv run python chapters/01-how-llm-inference-works/code/prompt_to_logits.py --device cuda
+```
+
+This downloads the pinned model and prints prompt/token/logit/cache observations.
+It does not run the full generation/timing sweep. The model and package pins are
+in [model_config.py](code/model_config.py). Complete timing collection uses
+`run_full_experiment` in `experiments.py`; the inference functions have no Modal
+dependency.
+
+The optional Modal wrapper rents a GPU and runs that full experiment:
 
 ```bash
 uv run modal setup
 uv run modal run chapters/01-how-llm-inference-works/code/modal_app.py
 ```
 
-Keep the original measured artifacts when experimenting. Write new results to a
-separate location and record their environment. The inference modules remain
-independent of the Modal wrapper.
-
-The publisher manuscript lives in Word. The ignored `chapter.md` is a reading
-copy synchronized with the revised manuscript, with its retained snippets checked
-against executable code.
+New results default to ignored `artifacts/tmp/chapter01`. Use `--output-dir` for
+another fresh directory. The wrapper refuses to overwrite an existing output
+location. Keep the original small measured examples when experimenting.

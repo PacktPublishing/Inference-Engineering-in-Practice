@@ -20,14 +20,6 @@ class GenerationResult:
     step_seconds: list[float]
     past_key_values: Any | None = None
 
-    @property
-    def prefill_seconds(self) -> float:
-        return self.step_seconds[0]
-
-    @property
-    def decode_seconds(self) -> list[float]:
-        return self.step_seconds[1:]
-
 
 def greedy_select(logits: torch.Tensor) -> torch.Tensor:
     """Select one token per batch row and retain a sequence dimension."""

@@ -5,6 +5,7 @@ description = "Runnable companion code for LLM Inference Engineering in Practice
 readme = "README.md"
 requires-python = "==3.12.*"
 dependencies = [
+    "httpx==0.28.1",
     "matplotlib==3.11.1",
     "modal==1.2.6",
     "numpy==2.5.1",
@@ -20,18 +21,21 @@ dev = [
 ]
 
 [tool.pytest.ini_options]
-# Import stalls were caused by offloaded environment files, not AnyIO.
 addopts = "-ra"
 pythonpath = [
     ".",
     "chapters/01-how-llm-inference-works/code",
+    "chapters/02-building-a-measurable-llm-service/code",
 ]
 testpaths = [
-    "scripts/tests",
+    "tests",
     "chapters/01-how-llm-inference-works/tests",
+    "chapters/02-building-a-measurable-llm-service/tests",
 ]
 
 [tool.ruff]
+# Local author tools are not public lint inputs.
+extend-exclude = ["author", "artifacts/tmp"]
 line-length = 100
 target-version = "py312"
 

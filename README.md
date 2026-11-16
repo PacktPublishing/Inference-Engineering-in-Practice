@@ -1,37 +1,23 @@
-# LLM Inference Engineering in Practice
+# Inference Engineering in Practice
 
-Runnable companion code for the Packt book *LLM Inference Engineering in
-Practice*.
+Runnable examples for the book by Dewang Sultania. Read the chapters for the
+explanations and essential outputs; use this repository to inspect, change, and
+run the programs.
 
-The manuscript is written code first: each mechanism is implemented, tested,
-and measured before the explanation is finalized. Chapters contain the
-essential snippets and representative output; this repository contains the
-complete programs, tests, and reproducibility metadata.
+- [Chapter 1: Following an LLM Request Through the Inference Stack](chapters/01-how-llm-inference-works/README.md)
+- [Chapter 2: Building a Measurable LLM Service](chapters/02-building-a-measurable-llm-service/README.md)
 
-## Chapters
-
-- [Chapter 1: Following an LLM Request Through the Inference Stack](chapters/01-how-llm-inference-works)
-
-Chapter 2, *Building a Measurable LLM Service*, will be written and implemented
-from scratch under the revised concept-first plan.
-
-## Local setup
-
-The project uses Python 3.12 and an exact `uv` lockfile. On macOS with a
-cloud-managed Documents folder, first run `sh scripts/setup_macos.sh` to keep
-dependencies local. See [the environment guidance](DEVELOPMENT.md#keeping-python-dependencies-local-on-macos).
-
-For ordinary local checkouts:
+Use Python 3.12 and [uv](https://docs.astral.sh/uv/):
 
 ```bash
-uv sync
-source .venv/bin/activate
-pytest
+uv sync --locked
+uv run pytest
 ```
 
-Most correctness examples run locally without a GPU. GPU-only experiments are
-clearly labeled and use a thin Modal runner; the inference code itself is not
-coupled to Modal.
+The tests need no GPU, credentials, or model download. Each chapter separates
+local exercises from optional GPU execution. Engine packages belong in their
+own GPU environments, not the local test environment.
 
-See [DEVELOPMENT.md](DEVELOPMENT.md) for the author workflow. Readers should
-follow the requirements and commands in each chapter folder.
+Small teaching datasets and figures are included. Write new runs under ignored
+`artifacts/tmp/`; raw logs, repeated source copies, and execution archives do
+not belong in Git. See [development checks](DEVELOPMENT.md) before contributing.

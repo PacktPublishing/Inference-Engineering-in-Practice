@@ -1,7 +1,7 @@
 """Thin, on-demand Modal wrapper for the Chapter 1 CUDA experiment.
 
-Defining this app does not start remote compute. Run it only after the author
-has checked current spend, estimated cost, and explicitly approved the command.
+Defining this app does not start remote compute. The entrypoint rents a GPU
+and writes fresh results to an ignored local directory.
 """
 
 from __future__ import annotations
@@ -28,8 +28,7 @@ from model_config import (  # noqa: E402
 )
 
 CODE_DIR = Path(REMOTE_CODE_DIR) if Path(REMOTE_CODE_DIR).is_dir() else Path(__file__).parent
-CHAPTER_DIR = CODE_DIR.parent
-DEFAULT_ARTIFACT_DIR = CHAPTER_DIR / "artifacts"
+DEFAULT_ARTIFACT_DIR = Path("artifacts/tmp/chapter01")
 
 app = modal.App("llm-inference-engineering-chapter-01")
 cache_volume = modal.Volume.from_name(
@@ -101,12 +100,14 @@ def run_on_gpu() -> dict[str, Any]:
 
 @app.local_entrypoint()
 def main(output_dir: str = str(DEFAULT_ARTIFACT_DIR)) -> None:
-    """Run the approved remote function and write its returned data locally."""
+    """Run the remote function and write its returned data locally."""
     from experiments import write_experiment_artifacts
     from kv_cache import write_artifacts as write_cache_artifacts
 
-    result = run_on_gpu.remote()
     destination = Path(output_dir)
+    if destination.exists():
+        raise FileExistsError(f"Choose a fresh output directory: {destination}")
+    result = run_on_gpu.remote()
     write_experiment_artifacts(result, destination)
     write_cache_artifacts(destination)
     print(f"Wrote Chapter 1 artifacts to {destination}")

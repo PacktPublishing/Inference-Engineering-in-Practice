@@ -24,7 +24,7 @@ __pycache__/
 .env
 .env.*
 
-# Generated scratch output (curated chapter artifacts are committed)
+# Generated runs stay local; commit only small teaching examples
 artifacts/tmp/
 *.prof
 *.trace.json
